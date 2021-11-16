@@ -1,0 +1,61 @@
+---
+- name: Remove earlier image blueprint repo clone
+  file:
+    path: "{{ local_repo_path }}"
+    state: absent
+
+- name: Clone image blueprint repo
+  git:
+    repo: "{{ git_remote_repo }}"
+    dest: "{{ local_repo_path }}"
+
+- name: Push image blueprint to osbuilder
+  command: composer-cli blueprints push {{ image_blueprint }}.toml
+  register: push_result
+  # https://bugzilla.redhat.com/show_bug.cgi?id=2023298
+  failed_when: push_result.stderr != ""
+  args:
+    chdir: "{{ local_repo_path }}"
+
+- name: Verify image blueprint
+  command: composer-cli blueprints depsolve {{ image_blueprint }}
+
+- name: Start image build
+  command: composer-cli compose start --size {{ image_size_kb }} {{ image_blueprint }} {{ image_output_type }}
+  register: build_command
+
+- name: Set build UUID
+  set_fact:
+    build_uuid: "{{ build_command.stdout_lines[0].split()[1] }}"
+
+- name: Wait for image build to complete
+  command: composer-cli compose info {{ build_uuid }}
+  register: build_status
+  failed_when: "'not a valid build' in build_status.stderr or 'FAILED' in build_status.stdout"
+  ignore_errors: true
+  until: "'not a valid build' in build_status.stderr or 'FAILED' in build_status.stdout or 'FINISHED' in build_status.stdout"
+  retries: 30
+  delay: 30
+
+- name: Display failed build logs
+  include_tasks: build_logs_display.yml
+  when: "'not a valid build' in build_status.stderr or 'FAILED' in build_status.stdout"
+
+- name: Abort if build failed
+  fail:
+    msg: Build failed, aborting!
+  when: "'not a valid build' in build_status.stderr or 'FAILED' in build_status.stdout"
+
+- name: Download image from osbuilder
+  command: composer-cli compose image {{ build_uuid }}
+  args:
+    chdir: "{{ image_download_dir }}"
+
+- name: Delete image build from osbuilder
+  command: composer-cli compose delete {{ build_uuid }}
+  when: image_build_remove
+
+- name: Remove image blueprint repo clone
+  file:
+    path: "{{ local_repo_path }}"
+    state: absent

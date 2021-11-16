@@ -1,0 +1,124 @@
+#
+# Base definition
+#
+name = "base-image"
+description = "Base Image"
+version = "2021.11.16"
+distro = "rhel-85"
+
+#
+# Filesystem
+#
+[[customizations.filesystem]]
+mountpoint = "/var/log"
+# 2G - https://bugzilla.redhat.com/show_bug.cgi?id=2023654
+size = 2147483648
+
+#
+# Locale
+#
+[customizations.locale]
+languages = ["en_US.UTF-8"]
+keyboard = "fi"
+
+#
+# Timezone
+#
+[customizations.timezone]
+timezone = "Europe/Helsinki"
+ntpservers = ["time.cloudflare.com"]
+
+#
+# Services
+#
+[customizations.services]
+enabled = ["sshd", "tuned"]
+
+#
+# Firewall
+#
+[customizations.firewall.services]
+enabled = ["ssh"]
+
+#
+# Packages
+#
+[[packages]]
+name = "bash-completion"
+version = "*"
+[[packages]]
+name = "bind-utils"
+version = "*"
+[[packages]]
+name = "bzip2"
+version = "*"
+[[packages]]
+name = "chrony"
+version = "*"
+[[packages]]
+name = "cloud-init"
+version = "*"
+[[packages]]
+name = "cloud-utils-growpart"
+version = "*"
+[[packages]]
+name = "curl"
+version = "*"
+[[packages]]
+name = "dnf-utils"
+version = "*"
+[[packages]]
+name = "firewalld"
+version = "*"
+[[packages]]
+name = "man-pages"
+version = "*"
+[[packages]]
+name = "mlocate"
+version = "*"
+[[packages]]
+name = "nano"
+version = "*"
+[[packages]]
+name = "openssh-clients"
+version = "*"
+[[packages]]
+name = "policycoreutils-python-utils"
+version = "*"
+[[packages]]
+name = "psmisc"
+version = "*"
+[[packages]]
+name = "python3"
+version = "*"
+[[packages]]
+name = "python3-libselinux"
+version = "*"
+[[packages]]
+name = "setools-console"
+version = "*"
+[[packages]]
+name = "sos"
+version = "*"
+[[packages]]
+name = "tar"
+version = "*"
+[[packages]]
+name = "tuned"
+version = "*"
+[[packages]]
+name = "unzip"
+version = "*"
+[[packages]]
+name = "vim-enhanced"
+version = "*"
+[[packages]]
+name = "yum-utils"
+version = "*"
+
+#
+# Root
+#
+[[customizations.sshkey]]
+user = "root"
+key = "ssh-rsa changeme"

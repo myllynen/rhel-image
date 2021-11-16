@@ -1,0 +1,24 @@
+---
+- name: Uninstall Image Builder
+  dnf:
+    name:
+      - '*composer*'
+      - '*osbuild*'
+    state: absent
+    autoremove: true
+  register: builder_packages
+
+- name: Remove Image Builder data directories
+  file:
+    path: "{{ item }}"
+    state: absent
+  loop:
+    - /var/cache/osbuild-composer
+    - /var/cache/osbuild-worker
+    - /var/lib/osbuild-composer
+  register: data_directories
+
+- name: Reboot system
+  reboot:
+  when: builder_packages is changed or
+        data_directories is changed

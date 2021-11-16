@@ -1,0 +1,31 @@
+---
+- name: Create temporary directory for build logs
+  tempfile:
+    state: directory
+    suffix: .logs
+  register: logs_directory
+
+- name: Fetch build logs from osbuilder
+  command: composer-cli compose logs {{ build_uuid }}
+  args:
+    chdir: "{{ logs_directory.path }}"
+
+- name: Extract build logs archive
+  unarchive:
+    src: "{{ logs_directory.path }}/{{ build_uuid}}-logs.tar"
+    dest: "{{ logs_directory.path }}"
+    remote_src: true
+
+- name: Read complete build logs
+  slurp:
+    src: "{{ logs_directory.path + '/logs/osbuild.log' }}"
+  register: log_content
+
+- name: Display complete build logs
+  debug:
+    msg: "{{ log_content.content | b64decode }}"
+
+- name: Remove temporary logs directory
+  file:
+    path: "{{ logs_directory.path }}"
+    state: absent

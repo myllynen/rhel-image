@@ -1,0 +1,37 @@
+---
+- name: Install Image Builder
+  yum:
+    name:
+      - composer-cli
+      - git-core
+      - osbuild-composer
+      - tar
+    state: present
+  register: builder_packages
+
+- name: Update all packages
+  yum:
+    name: '*'
+    state: latest
+  register: package_update
+
+- name: Enable Image Builder
+  service:
+    name: osbuild-composer.socket
+    enabled: true
+    state: started
+  register: builder_socket
+
+- name: Create user for building images
+  user:
+    name: image-builder
+    groups: weldr
+    append: true
+  register: builder_user
+
+- name: Reboot system
+  reboot:
+  when: builder_packages is changed or
+        package_update is changed or
+        builder_socket is changed or
+        builder_user is changed

@@ -1,0 +1,34 @@
+---
+- name: Get list of builds
+  command: composer-cli compose list
+  register: build_list
+
+- name: Delete builds
+  command: composer-cli compose delete {{ item | split | first }}
+  loop: "{{ build_list.stdout_lines }}"
+
+- name: Wait for build deletion to complete
+  pause:
+    seconds: 10
+  when: build_list.stdout_lines
+
+# https://bugzilla.redhat.com/show_bug.cgi?id=2023280
+- name: Get list of leftover build artifacts
+  find:
+    paths:
+      - /var/cache/osbuild-worker/osbuild-store/tmp
+      - /var/cache/osbuild-worker/output
+      - /var/lib/osbuild-composer/artifacts/tmp
+      - /var/lib/osbuild-composer/jobs
+    file_type: any
+    recurse: false
+  register: build_leftovers
+
+# https://bugzilla.redhat.com/show_bug.cgi?id=2023280
+- name: Delete leftover build artifacts
+  file:
+    path: "{{ item.path }}"
+    state: absent
+  loop: "{{ build_leftovers.files }}"
+  loop_control:
+    label: "{{ item.path }}"
