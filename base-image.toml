@@ -119,6 +119,22 @@ name = "yum-utils"
 version = "*"
 
 #
+# Security compliance
+#
+#[[packages]]
+#name = "aide"
+#version = "*"
+#[[packages]]
+#name = "openscap"
+#version = "*"
+#[[packages]]
+#name = "openscap-scanner"
+#version = "*"
+#[[packages]]
+#name = "scap-security-guide"
+#version = "*"
+
+#
 # Root
 #
 [[customizations.sshkey]]
