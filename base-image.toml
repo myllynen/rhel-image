@@ -11,10 +11,36 @@ distro = "rhel-85"
 #
 # Filesystem
 #
-[[customizations.filesystem]]
-mountpoint = "/var/log"
-# 2G - https://bugzilla.redhat.com/show_bug.cgi?id=2023654
-size = 2147483648
+##[[customizations.filesystem]]
+### See: https://bugzilla.redhat.com/show_bug.cgi?id=2023796
+##mountpoint = "/boot"
+## 1G - https://bugzilla.redhat.com/show_bug.cgi?id=2023654
+##size = 1073741824
+#[[customizations.filesystem]]
+#mountpoint = "/home"
+## 1G - https://bugzilla.redhat.com/show_bug.cgi?id=2023654
+#size = 1073741824
+##[[customizations.filesystem]]
+### See: https://bugzilla.redhat.com/show_bug.cgi?id=2023796
+##mountpoint = "/tmp"
+## 2G - https://bugzilla.redhat.com/show_bug.cgi?id=2023654
+##size = 2147483648
+#[[customizations.filesystem]]
+#mountpoint = "/var"
+## 8G - https://bugzilla.redhat.com/show_bug.cgi?id=2023654
+#size = 8589934592
+#[[customizations.filesystem]]
+#mountpoint = "/var/log"
+## 2G - https://bugzilla.redhat.com/show_bug.cgi?id=2023654
+#size = 2147483648
+#[[customizations.filesystem]]
+#mountpoint = "/var/log/audit"
+## 1G - https://bugzilla.redhat.com/show_bug.cgi?id=2023654
+#size = 1073741824
+#[[customizations.filesystem]]
+#mountpoint = "/var/tmp"
+## 1G - https://bugzilla.redhat.com/show_bug.cgi?id=2023654
+#size = 1073741824
 
 #
 # Locale
