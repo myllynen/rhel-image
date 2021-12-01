@@ -1,0 +1,8 @@
+- name: Build RHEL image with Image Builder
+  hosts: all
+  become: true
+  roles:
+    - image_builder_setup
+    - image_builder_image_build
+    - image_builder_cleanup
+    #- image_builder_uninstall

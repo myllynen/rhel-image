@@ -5,8 +5,14 @@
 #
 name = "base-image"
 description = "Base Image"
-version = "2021.11.16"
+version = "2021.12.01"
 distro = "rhel-85"
+
+#
+# Boot parameters
+#
+[customizations.kernel]
+append = "net.ifnames.prefix=net ipv6.disable=0 quiet systemd.show_status=yes"
 
 #
 # Filesystem
@@ -14,32 +20,41 @@ distro = "rhel-85"
 ##[[customizations.filesystem]]
 ### See: https://bugzilla.redhat.com/show_bug.cgi?id=2023796
 ##mountpoint = "/boot"
-## 1G - https://bugzilla.redhat.com/show_bug.cgi?id=2023654
+### 1G - https://bugzilla.redhat.com/show_bug.cgi?id=2023635
 ##size = 1073741824
+##[[customizations.filesystem]]
+### See: https://bugzilla.redhat.com/show_bug.cgi?id=2023796
+##mountpoint = "swap"
+### 2G - https://bugzilla.redhat.com/show_bug.cgi?id=2023635
+##size = 2147483648
+##[[customizations.filesystem]]
+##mountpoint = "/"
+### 8G - https://bugzilla.redhat.com/show_bug.cgi?id=2023635
+##size = 8589934592
 #[[customizations.filesystem]]
 #mountpoint = "/home"
-## 1G - https://bugzilla.redhat.com/show_bug.cgi?id=2023654
+## 1G - https://bugzilla.redhat.com/show_bug.cgi?id=2023635
 #size = 1073741824
 ##[[customizations.filesystem]]
 ### See: https://bugzilla.redhat.com/show_bug.cgi?id=2023796
 ##mountpoint = "/tmp"
-## 2G - https://bugzilla.redhat.com/show_bug.cgi?id=2023654
-##size = 2147483648
+### 1G - https://bugzilla.redhat.com/show_bug.cgi?id=2023635
+##size = 1073741824
 #[[customizations.filesystem]]
 #mountpoint = "/var"
-## 8G - https://bugzilla.redhat.com/show_bug.cgi?id=2023654
+## 8G - https://bugzilla.redhat.com/show_bug.cgi?id=2023635
 #size = 8589934592
 #[[customizations.filesystem]]
 #mountpoint = "/var/log"
-## 2G - https://bugzilla.redhat.com/show_bug.cgi?id=2023654
+## 2G - https://bugzilla.redhat.com/show_bug.cgi?id=2023635
 #size = 2147483648
 #[[customizations.filesystem]]
 #mountpoint = "/var/log/audit"
-## 1G - https://bugzilla.redhat.com/show_bug.cgi?id=2023654
+## 1G - https://bugzilla.redhat.com/show_bug.cgi?id=2023635
 #size = 1073741824
 #[[customizations.filesystem]]
 #mountpoint = "/var/tmp"
-## 1G - https://bugzilla.redhat.com/show_bug.cgi?id=2023654
+## 1G - https://bugzilla.redhat.com/show_bug.cgi?id=2023635
 #size = 1073741824
 
 #
@@ -60,7 +75,7 @@ ntpservers = ["time.cloudflare.com"]
 # Services
 #
 [customizations.services]
-enabled = ["sshd", "tuned"]
+enabled = ["sshd", "systemd-resolved", "tuned"]
 
 #
 # Firewall
@@ -75,34 +90,16 @@ enabled = ["ssh"]
 name = "bash-completion"
 version = "*"
 [[packages]]
-name = "bind-utils"
-version = "*"
-[[packages]]
 name = "bzip2"
 version = "*"
 [[packages]]
 name = "chrony"
 version = "*"
 [[packages]]
-name = "cloud-init"
-version = "*"
-[[packages]]
-name = "cloud-utils-growpart"
-version = "*"
-[[packages]]
-name = "curl"
-version = "*"
-[[packages]]
-name = "dnf-utils"
-version = "*"
-[[packages]]
 name = "firewalld"
 version = "*"
 [[packages]]
 name = "man-pages"
-version = "*"
-[[packages]]
-name = "mlocate"
 version = "*"
 [[packages]]
 name = "nano"
@@ -112,6 +109,9 @@ name = "openssh-clients"
 version = "*"
 [[packages]]
 name = "policycoreutils-python-utils"
+version = "*"
+[[packages]]
+name = "prefixdevname"
 version = "*"
 [[packages]]
 name = "psmisc"
@@ -126,19 +126,13 @@ version = "*"
 name = "setools-console"
 version = "*"
 [[packages]]
-name = "sos"
-version = "*"
-[[packages]]
 name = "tar"
 version = "*"
 [[packages]]
 name = "tuned"
 version = "*"
 [[packages]]
-name = "unzip"
-version = "*"
-[[packages]]
-name = "vim-enhanced"
+name = "virt-what"
 version = "*"
 [[packages]]
 name = "yum-utils"
@@ -166,3 +160,14 @@ version = "*"
 [[customizations.sshkey]]
 user = "root"
 key = "ssh-rsa changeme"
+
+#
+# User
+#
+[[customizations.user]]
+name = "rexuser"
+#password = "$6$x..."
+key = "ssh-rsa changeme"
+home = "/home/rexuser"
+shell = "/bin/bash"
+groups = ["users", "wheel"]

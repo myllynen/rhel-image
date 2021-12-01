@@ -10,12 +10,12 @@
     dest: "{{ local_repo_path }}"
 
 - name: Push image blueprint to osbuilder
-  command: composer-cli blueprints push {{ image_blueprint }}.toml
+  command:
+    cmd: composer-cli blueprints push {{ image_blueprint }}.toml
+    chdir: "{{ local_repo_path }}"
   register: push_result
   # https://bugzilla.redhat.com/show_bug.cgi?id=2023298
   failed_when: push_result.stderr != ""
-  args:
-    chdir: "{{ local_repo_path }}"
 
 - name: Verify image blueprint
   command: composer-cli blueprints depsolve {{ image_blueprint }}
@@ -24,7 +24,7 @@
   command: composer-cli compose start --size {{ image_size_kb }} {{ image_blueprint }} {{ image_output_type }}
   register: build_command
 
-- name: Set build UUID
+- name: Record build UUID
   set_fact:
     build_uuid: "{{ build_command.stdout_lines[0].split()[1] }}"
 
@@ -47,8 +47,8 @@
   when: "'not a valid build' in build_status.stderr or 'FAILED' in build_status.stdout"
 
 - name: Download image from osbuilder
-  command: composer-cli compose image {{ build_uuid }}
-  args:
+  command:
+    cmd: composer-cli compose image {{ build_uuid }}
     chdir: "{{ image_download_dir }}"
 
 - name: Delete image build from osbuilder

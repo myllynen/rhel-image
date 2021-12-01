@@ -6,8 +6,8 @@
   register: logs_directory
 
 - name: Fetch build logs from osbuilder
-  command: composer-cli compose logs {{ build_uuid }}
-  args:
+  command:
+    cmd: composer-cli compose logs {{ build_uuid }}
     chdir: "{{ logs_directory.path }}"
 
 - name: Extract build logs archive
