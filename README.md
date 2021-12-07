@@ -13,6 +13,11 @@ vi roles/image_builder_image_build/defaults/main.yml
 ansible-playbook -i 192.168.122.123, -u root image_builder.yml
 ```
 
+## See Also
+
+See also
+[https://github.com/myllynen/ansible-packer](https://github.com/myllynen/ansible-packer).
+
 ## License
 
 GPLv2+
