@@ -8,6 +8,7 @@
   git:
     repo: "{{ git_remote_repo }}"
     dest: "{{ local_repo_path }}"
+    version: "{{ git_remote_repo_version }}"
 
 - name: Push image blueprint to osbuilder
   command:
