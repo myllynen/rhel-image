@@ -1,5 +1,6 @@
 ---
 git_remote_repo: file:///tmp/rhel-image-blueprints.git
+git_remote_repo_version: master
 local_repo_path: /tmp/blueprint-repo
 image_blueprint: base-image
 image_size_kb: 20480
