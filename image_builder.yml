@@ -1,8 +1,14 @@
 - name: Build RHEL image with Image Builder
   hosts: all
   become: true
+  vars:
+    update_host: false
+    create_user: false
+    git_remote_repo: file:///tmp/rhel-image-blueprints.git
+    git_repo_checkout: master
+    image_blueprint: base-image
+    image_size_kb: 20480
+    image_output_type: qcow2
+    image_download_dir: /tmp/images
   roles:
-    - image_builder_setup
-    - image_builder_image_build
-    - image_builder_cleanup
-    #- image_builder_uninstall
+    - rhel-image

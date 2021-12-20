@@ -1,7 +1,21 @@
 ---
+# Tasks
+do_setup: true
+do_build: true
+do_cleanup: true
+do_uninstall: false
+
+# Setup
+update_host: true
+create_user: true
+builder_user: image-builder
+
+# Blueprints
 git_remote_repo: file:///tmp/rhel-image-blueprints.git
-git_remote_repo_version: master
+git_repo_checkout: master
 local_repo_path: /tmp/blueprint-repo
+
+# Image build
 image_blueprint: base-image
 image_size_kb: 20480
 image_output_type: qcow2

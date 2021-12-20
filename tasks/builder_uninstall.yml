@@ -4,6 +4,7 @@
     name:
       - '*composer*'
       - '*osbuild*'
+      - weldr-client
     state: absent
     autoremove: true
   register: builder_packages

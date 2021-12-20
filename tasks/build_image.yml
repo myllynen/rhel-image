@@ -8,7 +8,7 @@
   git:
     repo: "{{ git_remote_repo }}"
     dest: "{{ local_repo_path }}"
-    version: "{{ git_remote_repo_version }}"
+    version: "{{ git_repo_checkout }}"
 
 - name: Push image blueprint to osbuilder
   command:
@@ -46,6 +46,11 @@
   fail:
     msg: Build failed, aborting!
   when: "'not a valid build' in build_status.stderr or 'FAILED' in build_status.stdout"
+
+- name: Create image download directory
+  file:
+    path: "{{ image_download_dir }}"
+    state: directory
 
 - name: Download image from osbuilder
   command:
