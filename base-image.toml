@@ -5,7 +5,7 @@
 #
 name = "base-image"
 description = "Base Image"
-version = "2021.12.01"
+version = "2022.01.24"
 distro = "rhel-85"
 
 #
@@ -75,7 +75,7 @@ ntpservers = ["time.cloudflare.com"]
 # Services
 #
 [customizations.services]
-enabled = ["sshd", "systemd-resolved", "tuned"]
+enabled = ["sshd", "tuned"]
 
 #
 # Firewall
@@ -92,20 +92,23 @@ version = "*"
 [[packages]]
 name = "bzip2"
 version = "*"
-[[packages]]
-name = "chrony"
-version = "*"
+#[[packages]]
+#name = "cloud-init"
+#version = "*"
+#[[packages]]
+#name = "cloud-utils-growpart"
+#version = "*"
 [[packages]]
 name = "firewalld"
 version = "*"
+#[[packages]]
+#name = "insights-client"
+#version = "*"
 [[packages]]
 name = "man-pages"
 version = "*"
 [[packages]]
 name = "nano"
-version = "*"
-[[packages]]
-name = "openssh-clients"
 version = "*"
 [[packages]]
 name = "policycoreutils-python-utils"
@@ -132,7 +135,7 @@ version = "*"
 name = "tuned"
 version = "*"
 [[packages]]
-name = "virt-what"
+name = "vim-enhanced"
 version = "*"
 [[packages]]
 name = "yum-utils"
@@ -165,9 +168,11 @@ key = "ssh-rsa changeme"
 # User
 #
 [[customizations.user]]
-name = "rexuser"
+name = "admin"
+description = "Admin User"
 #password = "$6$x..."
 key = "ssh-rsa changeme"
-home = "/home/rexuser"
+home = "/home/admin"
 shell = "/bin/bash"
-groups = ["users", "wheel"]
+groups = ["wheel"]
+uid = 4444
