@@ -53,6 +53,9 @@ Then, create a [playbook](./image_builder.yml) to use this role:
     - rhel-image
 ```
 
+See [defaults/main.yml](defaults/main.yml) for all the supported
+parameters.
+
 Finally, build the image on a build host:
 
 ```
