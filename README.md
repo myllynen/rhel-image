@@ -16,7 +16,7 @@ First, install this role:
 
 ```
 mkdir roles
-cat > roles/requirements.yml <<EOF
+cat << EOF > roles/requirements.yml
 ---
 roles:
   - src: https://github.com/myllynen/rhel-image.git
