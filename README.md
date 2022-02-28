@@ -67,6 +67,9 @@ ansible-playbook -i 192.168.122.123, -u root image_builder.yml
 See also
 [https://github.com/myllynen/ansible-packer](https://github.com/myllynen/ansible-packer).
 
+See also
+[https://github.com/myllynen/rhel-ansible-roles](https://github.com/myllynen/rhel-ansible-roles).
+
 ## License
 
 GPLv2+
