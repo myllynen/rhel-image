@@ -59,7 +59,7 @@ parameters.
 Finally, build the image on a build host:
 
 ```
-ansible-playbook -i 192.168.122.123, -u root image_builder.yml
+ansible-playbook -i 192.168.122.123, image_builder.yml
 ```
 
 ## See Also
