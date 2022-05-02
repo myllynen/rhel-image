@@ -111,6 +111,9 @@ version = "*"
 name = "nano"
 version = "*"
 [[packages]]
+name = "NetworkManager-config-server"
+version = "*"
+[[packages]]
 name = "policycoreutils-python-utils"
 version = "*"
 [[packages]]
