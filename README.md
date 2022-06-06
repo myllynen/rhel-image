@@ -34,7 +34,7 @@ git commit -m "Update base-image" base-image.toml
 git push
 ```
 
-Then, create a [playbook](./image_builder.yml) to use this role:
+Then, create a [playbook](image_builder.yml) to use this role:
 
 ```
 ---
