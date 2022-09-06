@@ -42,9 +42,9 @@
   include_tasks: build_logs_display.yml
   when: "'not a valid build' in build_status.stderr or 'FAILED' in build_status.stdout"
 
-- name: Abort if build failed
+- name: Verify successful build
   fail:
-    msg: Build failed, aborting!
+    msg: "Build failed."
   when: "'not a valid build' in build_status.stderr or 'FAILED' in build_status.stdout"
 
 - name: Create image download directory

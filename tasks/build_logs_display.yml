@@ -23,7 +23,7 @@
 
 - name: Display complete build logs
   debug:
-    msg: "{{ log_content.content | b64decode }}"
+    msg: "{{ log_content.content|b64decode }}"
 
 - name: Remove temporary logs directory
   file:
