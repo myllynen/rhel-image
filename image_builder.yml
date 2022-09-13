@@ -1,8 +1,6 @@
 - name: Build RHEL image with Image Builder
   hosts: all
   become: true
-  collections:
-    - myllynen.rhel_image
   vars:
     rhel_image_update_host: false
     rhel_image_create_user: false
@@ -13,4 +11,4 @@
     rhel_image_output_type: qcow2
     rhel_image_download_dir: /tmp/images
   roles:
-    - rhel_image
+    - myllynen.rhel_image.rhel_image
