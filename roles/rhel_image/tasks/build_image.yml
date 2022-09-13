@@ -1,28 +1,28 @@
 ---
 - name: Remove earlier image blueprint repo clone
   file:
-    path: "{{ local_repo_path }}"
+    path: "{{ rhel_image_local_repo_path }}"
     state: absent
 
 - name: Clone image blueprint repo
   git:
-    repo: "{{ git_remote_repo }}"
-    dest: "{{ local_repo_path }}"
-    version: "{{ git_repo_checkout }}"
+    repo: "{{ rhel_image_git_remote_repo }}"
+    dest: "{{ rhel_image_local_repo_path }}"
+    version: "{{ rhel_image_git_repo_checkout }}"
 
 - name: Push image blueprint to osbuilder
   command:
-    cmd: composer-cli blueprints push {{ image_blueprint }}.toml
-    chdir: "{{ local_repo_path }}"
+    cmd: composer-cli blueprints push {{ rhel_image_blueprint }}.toml
+    chdir: "{{ rhel_image_local_repo_path }}"
   register: push_result
   # https://bugzilla.redhat.com/show_bug.cgi?id=2023298
   failed_when: push_result.stderr != ""
 
 - name: Verify image blueprint
-  command: composer-cli blueprints depsolve {{ image_blueprint }}
+  command: composer-cli blueprints depsolve {{ rhel_image_blueprint }}
 
 - name: Start image build
-  command: composer-cli compose start --size {{ image_size_kb }} {{ image_blueprint }} {{ image_output_type }}
+  command: composer-cli compose start --size {{ rhel_image_size_kb }} {{ rhel_image_blueprint }} {{ rhel_image_output_type }}
   register: build_command
 
 - name: Record build UUID
@@ -49,13 +49,13 @@
 
 - name: Create image download directory
   file:
-    path: "{{ image_download_dir }}"
+    path: "{{ rhel_image_download_dir }}"
     state: directory
 
 - name: Download image from osbuilder
   command:
     cmd: composer-cli compose image {{ build_uuid }}
-    chdir: "{{ image_download_dir }}"
+    chdir: "{{ rhel_image_download_dir }}"
 
 - name: Delete image build from osbuilder
   command: composer-cli compose delete {{ build_uuid }}
@@ -63,5 +63,5 @@
 
 - name: Remove image blueprint repo clone
   file:
-    path: "{{ local_repo_path }}"
+    path: "{{ rhel_image_local_repo_path }}"
     state: absent

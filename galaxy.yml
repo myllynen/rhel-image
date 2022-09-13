@@ -1,0 +1,20 @@
+namespace: myllynen
+name: rhel_image
+version: "0.1.0"
+readme: README.md
+authors:
+  - Marko Myllynen <myllynen@redhat.com>
+description: >
+  A simple Ansible role for building RHEL images with Image Builder.
+license:
+  - GPL-3.0-or-later
+tags:
+  - image_builder
+  - build
+  - image
+  - rhel
+  - centos
+  - fedora
+dependencies: {}
+repository: https://www.github.com/myllynen/rhel-image
+issues: https://www.github.com/myllynen/rhel-image/issues

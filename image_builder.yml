@@ -1,14 +1,16 @@
 - name: Build RHEL image with Image Builder
   hosts: all
   become: true
+  collections:
+    - myllynen.rhel_image
   vars:
-    update_host: false
-    create_user: false
-    git_remote_repo: file:///tmp/rhel-image-blueprints.git
-    git_repo_checkout: master
-    image_blueprint: base-image
-    image_size_kb: 20480
-    image_output_type: qcow2
-    image_download_dir: /tmp/images
+    rhel_image_update_host: false
+    rhel_image_create_user: false
+    rhel_image_git_remote_repo: file:///tmp/rhel-image-blueprints.git
+    rhel_image_git_repo_checkout: master
+    rhel_image_blueprint: base-image
+    rhel_image_size_kb: 20480
+    rhel_image_output_type: qcow2
+    rhel_image_download_dir: /tmp/images
   roles:
-    - rhel-image
+    - rhel_image

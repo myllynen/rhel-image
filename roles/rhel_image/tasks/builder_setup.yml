@@ -25,7 +25,7 @@
 
 - name: Create user for building images
   user:
-    name: "{{ builder_user }}"
+    name: "{{ rhel_image_builder_user }}"
     groups: weldr
     append: true
   register: user_create

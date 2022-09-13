@@ -1,16 +1,16 @@
 ---
 - name: Image Builder setup
   include_tasks: builder_setup.yml
-  when: do_setup | bool
+  when: rhel_image_do_setup | bool
 
 - name: Build image
   include_tasks: build_image.yml
-  when: do_build | bool
+  when: rhel_image_do_build | bool
 
 - name: Clean up Image Builder
   include_tasks: builder_cleanup.yml
-  when: do_cleanup | bool
+  when: rhel_image_do_cleanup | bool
 
 - name: Uninstall Image Builder
   include_tasks: builder_uninstall.yml
-  when: do_uninstall | bool
+  when: rhel_image_do_uninstall | bool
