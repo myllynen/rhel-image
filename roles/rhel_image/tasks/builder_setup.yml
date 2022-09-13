@@ -14,7 +14,7 @@
     name: '*'
     state: latest
   register: package_update
-  when: update_host
+  when: rhel_image_update_host
 
 - name: Enable Image Builder
   service:
@@ -29,7 +29,7 @@
     groups: weldr
     append: true
   register: user_create
-  when: create_user
+  when: rhel_image_create_user
 
 - name: Reboot system
   reboot:

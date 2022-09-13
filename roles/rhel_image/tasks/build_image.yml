@@ -59,7 +59,7 @@
 
 - name: Delete image build from osbuilder
   command: composer-cli compose delete {{ build_uuid }}
-  when: image_build_remove
+  when: rhel_image_build_remove
 
 - name: Remove image blueprint repo clone
   file:
