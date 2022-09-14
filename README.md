@@ -32,8 +32,6 @@ Then, create a [playbook](image_builder.yml) to use this role:
 - name: Build RHEL image with Image Builder
   hosts: all
   become: true
-  collections:
-    - myllynen.rhel_image
   vars:
     rhel_image_create_user: false
     rhel_image_git_remote_repo: file:///tmp/rhel-image-blueprints.git
@@ -43,7 +41,7 @@ Then, create a [playbook](image_builder.yml) to use this role:
     rhel_image_output_type: qcow2
     rhel_image_download_dir: /tmp/images
   roles:
-    - rhel_image
+    - myllynen.rhel_image.rhel_image
 ```
 
 See
