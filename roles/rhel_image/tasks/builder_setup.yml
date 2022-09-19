@@ -12,6 +12,7 @@
 - name: Update all packages
   yum:
     name: '*'
+    update_cache: true
     state: latest
   register: package_update
   when: rhel_image_update_host

@@ -1,6 +1,7 @@
 ---
 - name: Get list of builds
   command: composer-cli compose list
+  changed_when: false
   register: build_list
 
 - name: Delete builds
