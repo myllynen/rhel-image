@@ -2,12 +2,37 @@
 
 [![License: GPLv3](https://img.shields.io/badge/license-GPLv3-brightgreen.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
+Please see the collection main page for a higher level description.
+
 ## Configuration
 
-Please see [defaults/main.yml](defaults/main.yml) for all the
-configuration options this role supports.
+Below are the role default values from defaults/main.yml:
 
-Please see the [collection](../../../..) for a higher level description.
+<pre>
+---
+# Tasks
+rhel_image_do_setup: true
+rhel_image_do_build: true
+rhel_image_do_cleanup: true
+rhel_image_do_uninstall: false
+
+# Setup
+rhel_image_update_host: true
+rhel_image_create_user: true
+rhel_image_builder_user: image-builder
+
+# Blueprints
+rhel_image_git_remote_repo: file:///tmp/rhel-image-blueprints.git
+rhel_image_git_repo_checkout: master
+rhel_image_local_repo_path: /tmp/blueprint-repo
+
+# Image build
+rhel_image_blueprint: base-image
+rhel_image_size_kb: 20480
+rhel_image_output_type: qcow2
+rhel_image_download_dir: /tmp
+rhel_image_build_remove: true
+</pre>
 
 ## License
 

@@ -2,7 +2,7 @@
 
 [![License: GPLv3](https://img.shields.io/badge/license-GPLv3-brightgreen.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
-A simple Ansible role for building RHEL images with Image Builder.
+Ansible role for building RHEL images with Image Builder.
 
 ## Quick Usage Example
 
@@ -11,7 +11,7 @@ This role builds custom RHEL images with
 The role uses a given image blueprint from a Git repository and stores
 results on the build host.
 
-To install this collection:
+To install this collection from GitHub:
 
 ```
 ansible-galaxy collection install git+https://github.com/myllynen/rhel-image,master

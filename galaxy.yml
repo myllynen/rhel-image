@@ -5,7 +5,7 @@ readme: README.md
 authors:
   - Marko Myllynen <myllynen@redhat.com>
 description: >
-  A simple Ansible role for building RHEL images with Image Builder.
+  Ansible role for building RHEL images with Image Builder.
 license:
   - GPL-3.0-or-later
 tags:
