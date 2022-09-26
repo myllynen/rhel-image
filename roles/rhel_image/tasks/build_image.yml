@@ -22,7 +22,17 @@
   command: composer-cli blueprints depsolve {{ rhel_image_blueprint }}
 
 - name: Start image build
-  command: composer-cli compose start --size {{ rhel_image_size_kb }} {{ rhel_image_blueprint }} {{ rhel_image_output_type }}
+  vars:
+    ostree_ref: "{{ rhel_image_ostree_ref | default(false) }}"
+    ref_option: "{{ ostree_ref | ternary('--ref ' + ostree_ref, '', '') }}"
+    ostree_parent: "{{ rhel_image_ostree_parent | default(false) }}"
+    parent_option: "{{ ostree_parent | ternary('--parent ' + ostree_parent, '', '') }}"
+    ostree_url: "{{ rhel_image_ostree_url | default(false) }}"
+    url_option: "{{ ostree_url | ternary('--url ' + ostree_url, '', '') }}"
+    size_kb: "{{ rhel_image_size_kb | default(false) }}"
+    size_option: "{{ size_kb | ternary('--size ' + size_kb, '', '') }}"
+    start_cmd: "{{ 'start-ostree' if ostree_ref else 'start' }}"
+  command: composer-cli compose {{ start_cmd }} {{ ref_option }} {{ parent_option }} {{ url_option }} {{ size_option }} {{ rhel_image_blueprint }} {{ rhel_image_output_type }}
   register: build_command
 
 - name: Record build UUID

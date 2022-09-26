@@ -12,7 +12,7 @@ distro = "rhel-85"
 # Boot parameters
 #
 [customizations.kernel]
-append = "net.ifnames.prefix=net ipv6.disable=0 quiet systemd.show_status=yes"
+append = "net.ifnames.prefix=net quiet systemd.show_status=yes"
 
 #
 # Filesystem

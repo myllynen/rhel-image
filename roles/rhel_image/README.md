@@ -21,17 +21,22 @@ rhel_image_update_host: true
 rhel_image_create_user: true
 rhel_image_builder_user: image-builder
 
-# Blueprints
+# Blueprint
 rhel_image_git_remote_repo: file:///tmp/rhel-image-blueprints.git
 rhel_image_git_repo_checkout: master
 rhel_image_local_repo_path: /tmp/blueprint-repo
 
-# Image build
+# Build
 rhel_image_blueprint: base-image
-rhel_image_size_kb: 20480
-rhel_image_output_type: qcow2
 rhel_image_download_dir: /tmp
 rhel_image_build_remove: true
+
+# Image - only define needed options
+rhel_image_output_type: qcow2
+rhel_image_size_kb:
+rhel_image_ostree_ref:
+rhel_image_ostree_parent:
+rhel_image_ostree_url:
 </pre>
 
 ## License
