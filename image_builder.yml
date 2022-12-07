@@ -1,3 +1,4 @@
+---
 - name: Build RHEL image with Image Builder
   hosts: all
   become: true

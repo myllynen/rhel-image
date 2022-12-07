@@ -1,10 +1,11 @@
+---
 galaxy_info:
   role_name: rhel_image
   author: Marko Myllynen <myllynen@redhat.com>
   company: Red Hat, Inc.
   description: rhel_image role
   license: GPLv3+
-  min_ansible_version: 2.9
+  min_ansible_version: 2.12
   platforms:
     - name: EL
       versions:
