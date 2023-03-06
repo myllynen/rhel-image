@@ -34,7 +34,9 @@
 
 - name: Reboot system
   reboot:
-  when: builder_packages is changed or
-        package_update is changed or
-        builder_socket is changed or
-        user_create is changed
+  when:
+    - rhel_image_reboot_host | bool
+    - builder_packages is changed or
+      package_update is changed or
+      builder_socket is changed or
+      user_create is changed

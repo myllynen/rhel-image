@@ -1,12 +1,13 @@
 ---
 - name: Uninstall Image Builder
-  dnf:
+  yum:
     name:
       - '*composer*'
       - '*osbuild*'
       - weldr-client
-    state: absent
     autoremove: true
+    cacheonly: true
+    state: absent
   register: builder_packages
 
 - name: Remove Image Builder data directories
@@ -21,5 +22,7 @@
 
 - name: Reboot system
   reboot:
-  when: builder_packages is changed or
-        data_directories is changed
+  when:
+    - rhel_image_reboot_host | bool
+    - builder_packages is changed or
+      data_directories is changed

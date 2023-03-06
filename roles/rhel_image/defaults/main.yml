@@ -9,6 +9,7 @@ rhel_image_do_uninstall: false
 rhel_image_update_host: true
 rhel_image_create_user: true
 rhel_image_builder_user: image-builder
+rhel_image_reboot_host: false
 
 # Blueprint
 rhel_image_git_remote_repo: file:///tmp/rhel-image-blueprints.git
