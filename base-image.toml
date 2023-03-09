@@ -5,8 +5,8 @@
 #
 name = "base-image"
 description = "Base Image"
-version = "2022.01.24"
-distro = "rhel-85"
+version = "2023.03.09"
+distro = "rhel-87"
 
 #
 # Boot parameters
