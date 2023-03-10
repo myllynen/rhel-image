@@ -15,7 +15,7 @@
     update_cache: true
     state: latest
   register: package_update
-  when: rhel_image_update_host
+  when: rhel_image_update_host | bool
 
 - name: Enable Image Builder
   service:
@@ -30,7 +30,7 @@
     groups: weldr
     append: true
   register: user_create
-  when: rhel_image_create_user
+  when: rhel_image_create_user | bool
 
 - name: Reboot system
   reboot:
