@@ -64,6 +64,7 @@
   command:
     cmd: composer-cli compose image {{ build_uuid }}
     chdir: "{{ rhel_image_download_dir }}"
+  register: image_file
 
 - name: Delete image build from osbuilder
   command: composer-cli compose delete {{ build_uuid }}

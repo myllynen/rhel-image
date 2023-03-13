@@ -7,6 +7,10 @@
   include_tasks: build_image.yml
   when: rhel_image_do_build | bool
 
+- name: Fetch image
+  include_tasks: fetch_image.yml
+  when: rhel_image_fetch_image | bool
+
 - name: Clean up Image Builder
   include_tasks: builder_cleanup.yml
   when: rhel_image_do_cleanup | bool
