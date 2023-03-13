@@ -14,9 +14,6 @@
   command:
     cmd: composer-cli blueprints push {{ rhel_image_blueprint }}.toml
     chdir: "{{ rhel_image_local_repo_path }}"
-  register: push_result
-  # https://bugzilla.redhat.com/show_bug.cgi?id=2023298
-  failed_when: push_result.stderr != ""
 
 - name: Verify image blueprint
   command: composer-cli blueprints depsolve {{ rhel_image_blueprint }}
