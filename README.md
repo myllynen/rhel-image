@@ -50,9 +50,8 @@ Then, create a [playbook](image_builder.yml) to use this role:
     - myllynen.rhel_image.rhel_image
 ```
 
-See
-[roles/rhel_image/defaults/main.yml](roles/rhel_image/defaults/main.yml)
-for all the supported parameters.
+See [roles/rhel_image/README.md](roles/rhel_image/README.md) for all the
+supported parameters.
 
 Finally, build the image on a build host:
 
