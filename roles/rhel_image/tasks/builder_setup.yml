@@ -10,6 +10,7 @@
   register: builder_packages
 
 - name: Update all packages
+  # noqa: package-latest
   yum:
     name: '*'
     update_cache: true

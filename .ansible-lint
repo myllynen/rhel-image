@@ -1,0 +1,6 @@
+---
+offline: true
+skip_list:
+  - fqcn[action-core]
+  - no-handler
+  - yaml[comments]

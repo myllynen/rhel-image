@@ -6,6 +6,7 @@
 
 - name: Delete builds
   command: composer-cli compose delete {{ item | split | first }}
+  changed_when: true
   loop: "{{ build_list.stdout_lines }}"
 
 - name: Wait for build deletion to complete

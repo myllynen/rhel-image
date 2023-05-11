@@ -14,22 +14,27 @@
   command:
     cmd: composer-cli blueprints push {{ rhel_image_blueprint }}.toml
     chdir: "{{ rhel_image_local_repo_path }}"
+  changed_when: true
 
 - name: Verify image blueprint
   command: composer-cli blueprints depsolve {{ rhel_image_blueprint }}
+  changed_when: true
 
 - name: Start image build
   vars:
     ostree_ref: "{{ rhel_image_ostree_ref | default(false) }}"
-    ref_option: "{{ ostree_ref | ternary('--ref ' + ostree_ref, '', '') }}"
+    ref_option: "{{ ostree_ref | ternary('--ref ' + ostree_ref | string, '', '') }}"
     ostree_parent: "{{ rhel_image_ostree_parent | default(false) }}"
-    parent_option: "{{ ostree_parent | ternary('--parent ' + ostree_parent, '', '') }}"
+    parent_option: "{{ ostree_parent | ternary('--parent ' + ostree_parent | string, '', '') }}"
     ostree_url: "{{ rhel_image_ostree_url | default(false) }}"
-    url_option: "{{ ostree_url | ternary('--url ' + ostree_url, '', '') }}"
+    url_option: "{{ ostree_url | ternary('--url ' + ostree_url | string, '', '') }}"
     size_kb: "{{ rhel_image_size_kb | default(false) }}"
-    size_option: "{{ size_kb | ternary('--size ' + size_kb, '', '') }}"
+    size_option: "{{ size_kb | ternary('--size ' + size_kb | string, '', '') }}"
     start_cmd: "{{ 'start-ostree' if ostree_ref else 'start' }}"
-  command: composer-cli compose {{ start_cmd }} {{ ref_option }} {{ parent_option }} {{ url_option }} {{ size_option }} {{ rhel_image_blueprint }} {{ rhel_image_output_type }}
+  command: >
+    composer-cli compose {{ start_cmd }} {{ ref_option }} {{ parent_option }} {{ url_option }} {{ size_option }}
+    {{ rhel_image_blueprint }} {{ rhel_image_output_type }}
+  changed_when: true
   register: build_command
 
 - name: Record build UUID
@@ -40,6 +45,7 @@
   command: composer-cli compose info {{ build_uuid }}
   register: build_status
   failed_when: "'not a valid build' in build_status.stderr or 'FAILED' in build_status.stdout"
+  changed_when: false
   ignore_errors: true
   until: "'not a valid build' in build_status.stderr or 'FAILED' in build_status.stdout or 'FINISHED' in build_status.stdout"
   retries: 30
@@ -64,10 +70,12 @@
   command:
     cmd: composer-cli compose image {{ build_uuid }}
     chdir: "{{ rhel_image_download_dir }}"
+  changed_when: true
   register: image_file
 
 - name: Delete image build from osbuilder
   command: composer-cli compose delete {{ build_uuid }}
+  changed_when: true
   when: rhel_image_build_remove | bool
 
 - name: Remove image blueprint repo clone

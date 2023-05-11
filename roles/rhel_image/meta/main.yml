@@ -5,14 +5,14 @@ galaxy_info:
   company: Red Hat, Inc.
   description: rhel_image role
   license: GPLv3+
-  min_ansible_version: 2.12
+  min_ansible_version: "2.13"
   platforms:
     - name: EL
       versions:
-        - 8
-        - 9
+        - "8"
+        - "9"
   galaxy_tags:
-    - image_builder
+    - imagebuilder
     - build
     - image
     - rhel
