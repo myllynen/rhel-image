@@ -55,7 +55,7 @@
   include_tasks: build_logs_display.yml
   when: "'not a valid build' in build_status.stderr or 'FAILED' in build_status.stdout"
 
-- name: Verify successful build
+- name: Fail if build not successful
   fail:
     msg: "Build failed."
   when: "'not a valid build' in build_status.stderr or 'FAILED' in build_status.stdout"
