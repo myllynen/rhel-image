@@ -10,11 +10,14 @@ description: >
 license:
   - GPL-3.0-or-later
 tags:
-  - image_builder
+  - imagebuilder
   - build
   - image
+  - linux
   - rhel
   - edge
+  - tools
+  - infrastructure
 dependencies: {}
 repository: https://www.github.com/myllynen/rhel-image
 issues: https://www.github.com/myllynen/rhel-image/issues
