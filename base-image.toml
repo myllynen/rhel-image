@@ -141,3 +141,10 @@ home = "/home/admin"
 shell = "/bin/bash"
 groups = ["wheel"]
 uid = 4444
+
+[[customizations.files]]
+path = "/etc/sudoers.d/admin"
+mode = "0400"
+data = """
+admin ALL=(ALL) NOPASSWD: ALL
+"""
