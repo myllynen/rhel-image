@@ -4,8 +4,8 @@
 # Base definition
 #
 name = "base-image"
-description = "Base Image"
-version = "2023.05.23"
+description = "RHEL Base Image"
+version = "2023.09.15"
 distro = "rhel-92"
 
 #
@@ -20,6 +20,7 @@ append = "net.ifnames.prefix=net quiet systemd.show_status=yes"
 [[customizations.filesystem]]
 mountpoint = "/boot"
 size = "1 GiB"
+# https://bugzilla.redhat.com/show_bug.cgi?id=2172573
 #[[customizations.filesystem]]
 #mountpoint = "swap"
 #size = "2 GiB"
@@ -46,13 +47,6 @@ mountpoint = "/var/tmp"
 size = "2 GiB"
 
 #
-# Locale
-#
-[customizations.locale]
-languages = ["en_US.UTF-8"]
-keyboard = "fi"
-
-#
 # Timezone
 #
 [customizations.timezone]
@@ -60,16 +54,23 @@ timezone = "Europe/Helsinki"
 ntpservers = ["time.cloudflare.com"]
 
 #
-# Services
+# Locale
 #
-[customizations.services]
-enabled = ["sshd", "tuned"]
+[customizations.locale]
+languages = ["en_US.UTF-8"]
+keyboard = "fi"
 
 #
 # Firewall
 #
 [customizations.firewall.services]
 enabled = ["ssh"]
+
+#
+# Services
+#
+[customizations.services]
+enabled = ["sshd", "tuned"]
 
 #
 # Packages
@@ -127,7 +128,7 @@ version = "*"
 #
 [[customizations.sshkey]]
 user = "root"
-key = "ssh-rsa changeme"
+key = "ssh-ed25519 changeme"
 
 #
 # User
@@ -135,8 +136,8 @@ key = "ssh-rsa changeme"
 [[customizations.user]]
 name = "admin"
 description = "Admin User"
-#password = "$6$x..."
-key = "ssh-rsa changeme"
+#password = "$6$..."
+key = "ssh-ed25519 changeme"
 home = "/home/admin"
 shell = "/bin/bash"
 groups = ["wheel"]
@@ -144,7 +145,7 @@ uid = 4444
 
 [[customizations.files]]
 path = "/etc/sudoers.d/admin"
-mode = "0400"
+mode = "0440"
 data = """
 admin ALL=(ALL) NOPASSWD: ALL
 """
