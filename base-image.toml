@@ -57,7 +57,7 @@ ntpservers = ["time.cloudflare.com"]
 # Locale
 #
 [customizations.locale]
-languages = ["en_US.UTF-8"]
+languages = ["C.UTF-8"]
 keyboard = "fi"
 
 #
