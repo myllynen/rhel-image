@@ -5,14 +5,14 @@
 #
 name = "base-image"
 description = "RHEL Base Image"
-version = "2023.09.15"
+version = "2023.09.25"
 distro = "rhel-92"
 
 #
 # Boot parameters
 #
 [customizations.kernel]
-append = "net.ifnames.prefix=net quiet systemd.show_status=yes"
+append = "net.ifnames.prefix=net quiet"
 
 #
 # Filesystem
@@ -20,7 +20,7 @@ append = "net.ifnames.prefix=net quiet systemd.show_status=yes"
 [[customizations.filesystem]]
 mountpoint = "/boot"
 size = "1 GiB"
-# https://bugzilla.redhat.com/show_bug.cgi?id=2172573
+# https://issues.redhat.com/browse/RHEL-4636
 #[[customizations.filesystem]]
 #mountpoint = "swap"
 #size = "2 GiB"
@@ -100,6 +100,7 @@ version = "*"
 #name = "NetworkManager-config-server"
 #version = "*"
 ## https://bugzilla.redhat.com/show_bug.cgi?id=2041424
+## https://issues.redhat.com/browse/RHELPLAN-108305
 #[[packages]]
 #name = "perl-File-Temp"
 #version = "*"
