@@ -2,10 +2,10 @@
 - name: Install Image Builder
   yum:
     name:
-      - composer-cli
       - git-core
       - osbuild-composer
       - tar
+      - weldr-client
     state: present
   register: builder_packages
 

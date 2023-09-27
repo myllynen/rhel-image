@@ -2,8 +2,7 @@
 - name: Uninstall Image Builder
   yum:
     name:
-      - '*composer*'
-      - '*osbuild*'
+      - 'osbuild*'
       - weldr-client
     autoremove: true
     cacheonly: true
