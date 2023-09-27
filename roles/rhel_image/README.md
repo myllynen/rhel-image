@@ -30,7 +30,7 @@ rhel_image_local_repo_path: /tmp/blueprint-repo
 # Build
 rhel_image_blueprint: base-image
 # This is on the build host
-rhel_image_download_dir: /tmp
+rhel_image_download_dir: /tmp/images
 rhel_image_build_remove: true
 
 # Image - only define needed options
