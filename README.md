@@ -59,6 +59,24 @@ Finally, build the image on a build host:
 ansible-playbook -i 192.168.122.123, image_builder.yml
 ```
 
+## Disconnected Environments
+
+By default RHEL Image Builder tries to fetch repository data from Red
+Hat CDN. In case internet access is restricted and repositories are
+available on a local Satellite or such, the repository configuration for
+each distribution version used in images must be adjusted.
+
+See [this RHKB article](https://access.redhat.com/solutions/5773421) for
+hints how to configure RHEL Image Builder to use a local Satellite. In
+essence, copy the relevant RPM provided distro JSON files to
+_/etc/osbuild-composer/repositories_, change the repository URLs, and
+either disable GPG checks or update the certificate data in the JSON
+files.
+
+Do not make changes to Katello certificate files as the above article
+currently (H2/2023) suggests before testing would things work without
+those steps.
+
 ## See Also
 
 See also
@@ -66,6 +84,9 @@ See also
 
 See also
 [https://github.com/myllynen/rhel-ansible-roles](https://github.com/myllynen/rhel-ansible-roles).
+
+See also
+[https://access.redhat.com/solutions/5773421](https://access.redhat.com/solutions/5773421).
 
 ## License
 
