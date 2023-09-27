@@ -11,6 +11,11 @@ This role builds custom RHEL images with
 The role uses a given image blueprint from a Git repository and either
 stores results on the build host or fetches them to the local node.
 
+The role allows for first setting a buil host by installing the needed
+packages and optionally creating a dedicated user (which will be part of
+the _weldr_ group) for running Image Builder. Then, images can be built
+using the superuser or the dedicated user with any given blueprint.
+
 To install this collection from GitHub:
 
 ```
@@ -33,7 +38,6 @@ Then, create a [playbook](image_builder.yml) to use this role:
   hosts: all
   become: true
   vars:
-    rhel_image_create_user: false
     rhel_image_git_remote_repo: file:///tmp/rhel-image-blueprints.git
     rhel_image_git_repo_checkout: master
     rhel_image_blueprint: base-image
