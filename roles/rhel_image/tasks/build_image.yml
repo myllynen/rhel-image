@@ -62,9 +62,9 @@
 
 - name: Create image download directory
   file:
+    # noqa: risky-file-permissions
     path: "{{ rhel_image_download_dir }}"
     state: directory
-    mode: '0700'
 
 - name: Download image from osbuilder
   command:
