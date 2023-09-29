@@ -45,6 +45,7 @@ Then, create a [playbook](image_builder.yml) to use this role:
     rhel_image_size_kb: 30720
     # This is on the build host
     rhel_image_download_dir: /tmp/images
+    rhel_image_filename: base-image.qcow2
     # Fetch from build host
     rhel_image_fetch_image: true
     # This is where playbook runs

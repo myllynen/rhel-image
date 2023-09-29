@@ -67,8 +67,11 @@
     state: directory
 
 - name: Download image from osbuilder
+  vars:
+    build_file: "{{ rhel_image_filename if rhel_image_filename | default(false) else build_uuid }}"
+    cmd_params: "{{ '' if build_file == build_uuid else '--filename ' + build_file }}"
   command:
-    cmd: composer-cli compose image {{ build_uuid }}
+    cmd: composer-cli compose image {{ build_uuid }} {{ cmd_params }}
     chdir: "{{ rhel_image_download_dir }}"
   register: image_file
   changed_when: true

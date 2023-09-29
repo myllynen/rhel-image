@@ -1,5 +1,5 @@
 ---
-- name: Image Builder setup
+- name: Setup Image Builder
   include_tasks: builder_setup.yml
   when: rhel_image_do_setup | bool
 
