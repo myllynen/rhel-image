@@ -1,4 +1,7 @@
 ---
+- name: Gather packages facts
+  package_facts:
+
 - name: Install Image Builder
   yum:
     name:
@@ -8,6 +11,7 @@
       - weldr-client
     state: present
   register: builder_packages
+  when: "'osbuild-composer' not in ansible_facts.packages"
 
 - name: Update all packages
   # noqa: package-latest
