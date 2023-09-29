@@ -17,8 +17,8 @@ rhel_image_do_cleanup: true
 rhel_image_do_uninstall: false
 
 # Setup
-rhel_image_update_host: true
-rhel_image_create_user: true
+rhel_image_update_host: false
+rhel_image_create_user: false
 rhel_image_builder_user: image-builder
 rhel_image_reboot_host: false
 

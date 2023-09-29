@@ -41,8 +41,8 @@ Then, create a [playbook](image_builder.yml) to use this role:
     rhel_image_git_remote_repo: file:///tmp/rhel-image-blueprints.git
     rhel_image_git_repo_checkout: master
     rhel_image_blueprint: base-image
-    rhel_image_size_kb: 30720
     rhel_image_output_type: qcow2
+    rhel_image_size_kb: 30720
     # This is on the build host
     rhel_image_download_dir: /tmp/images
     # Fetch from build host
