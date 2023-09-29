@@ -1,4 +1,10 @@
 ---
+- name: Update image directory permissions
+  file:
+    path: "{{ rhel_image_download_dir }}"
+    mode: o+rx
+  when: "'SUDO_USER' in ansible_facts.env"
+
 - name: Update image file permissions
   file:
     path: "{{ rhel_image_download_dir }}/{{ image_file.stdout }}"
