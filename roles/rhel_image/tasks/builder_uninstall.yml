@@ -19,6 +19,25 @@
     - /var/lib/osbuild-composer
   register: data_directories
 
+- name: Get list of osbuilder temporary directories
+  find:
+    paths:
+      - /tmp
+      - /var/tmp
+    patterns: 'dnf-_osbuild-composer*,tmp*'
+    file_type: directory
+    recurse: false
+  register: temp_directories
+
+- name: Delete osbuilder temporary directories
+  file:
+    path: "{{ item.path }}"
+    state: absent
+  loop: "{{ temp_directories.files }}"
+  loop_control:
+    label: "{{ item.path }}"
+  when: item.pw_name == '_osbuild-composer'
+
 - name: Reboot system
   reboot:
   when:

@@ -16,7 +16,7 @@
   when: build_delete is changed
 
 # https://bugzilla.redhat.com/show_bug.cgi?id=2023280
-- name: Get list of leftover build artifacts
+- name: Get list of build artifacts to delete
   find:
     paths:
       - /var/cache/osbuild-worker/osbuild-store/tmp
@@ -25,13 +25,32 @@
       - /var/lib/osbuild-composer/jobs
     file_type: any
     recurse: false
-  register: build_leftovers
+  register: build_artifacts
 
 # https://bugzilla.redhat.com/show_bug.cgi?id=2023280
-- name: Delete leftover build artifacts
+- name: Delete build artifacts
   file:
     path: "{{ item.path }}"
     state: absent
-  loop: "{{ build_leftovers.files }}"
+  loop: "{{ build_artifacts.files }}"
   loop_control:
     label: "{{ item.path }}"
+
+- name: Get list of osbuilder temporary directories
+  find:
+    paths:
+      - /tmp
+      - /var/tmp
+    patterns: 'dnf-_osbuild-composer*,tmp*'
+    file_type: directory
+    recurse: false
+  register: temp_directories
+
+- name: Delete osbuilder temporary directories
+  file:
+    path: "{{ item.path }}"
+    state: absent
+  loop: "{{ temp_directories.files }}"
+  loop_control:
+    label: "{{ item.path }}"
+  when: item.pw_name == '_osbuild-composer'
