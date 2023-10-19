@@ -6,7 +6,7 @@
 name = "base-image"
 description = "RHEL Base Image"
 version = "2023.09.25"
-distro = "rhel-92"
+distro = "rhel-9"
 
 #
 # Boot parameters
@@ -77,45 +77,32 @@ enabled = ["sshd", "tuned"]
 #
 [[packages]]
 name = "bash-completion"
-version = "*"
 [[packages]]
 name = "bind-utils"
-version = "*"
 [[packages]]
 name = "firewalld"
-version = "*"
 [[packages]]
 name = "glibc-langpack-en"
-version = "*"
 [[packages]]
 name = "glibc-minimal-langpack"
-version = "*"
 [[packages]]
 name = "man-pages"
-version = "*"
 [[packages]]
 name = "nano"
-version = "*"
 #[[packages]]
 #name = "NetworkManager-config-server"
-#version = "*"
 ## https://bugzilla.redhat.com/show_bug.cgi?id=2041424
 ## https://issues.redhat.com/browse/RHELPLAN-108305
 #[[packages]]
 #name = "perl-File-Temp"
-#version = "*"
 [[packages]]
 name = "python3"
-version = "*"
 [[packages]]
 name = "setools-console"
-version = "*"
 #[[packages]]
 #name = "unzip"
-#version = "*"
 #[[packages]]
 #name = "vim-enhanced"
-#version = "*"
 
 #
 # Security compliance
