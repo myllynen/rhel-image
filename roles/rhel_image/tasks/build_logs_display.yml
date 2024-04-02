@@ -1,8 +1,8 @@
 ---
 - name: Create temporary directory for build logs
   tempfile:
-    state: directory
     suffix: .logs
+    state: directory
   register: logs_directory
 
 - name: Fetch build logs from osbuilder

@@ -11,10 +11,11 @@ This role builds custom RHEL images with
 The role uses a given image blueprint from a Git repository and either
 stores results on the build host or fetches them to the local node.
 
-The role allows for first setting a build host by installing the needed
-packages and optionally creating a dedicated user (which will be part of
-the _weldr_ group) for running Image Builder. Then, images can be built
-using the superuser or the dedicated user with any given blueprint.
+The role allows for first setting up a build host by installing the
+needed packages and optionally creating a dedicated user (which will be
+part of the _weldr_ group) for running Image Builder. Then, images can
+be built either by the superuser or the dedicated user with any given
+blueprint.
 
 To install this collection from GitHub:
 
@@ -38,17 +39,22 @@ Then, create a [playbook](image_builder.yml) to use this role:
   hosts: all
   become: true
   vars:
+    rhel_image_update_host: false
+    rhel_image_create_user: false
+
     rhel_image_git_remote_repo: file:///tmp/rhel-image-blueprints.git
     rhel_image_git_repo_checkout: master
     rhel_image_blueprint: base-image
     rhel_image_output_type: qcow2
     rhel_image_size_kb: 30720
+    # Optional image filename to use instead of UUID
+    #rhel_image_filename: ci-daily-image.qcow2
+
     # This is on the build host
     rhel_image_download_dir: /tmp/images
-    rhel_image_filename: base-image.qcow2
-    # Fetch from build host
+    # Fetch from the build host
     rhel_image_fetch_image: true
-    # This is where playbook runs
+    # This is where this playbook runs
     rhel_image_fetch_directory: /tmp
     rhel_image_remote_delete: true
   roles:
@@ -69,13 +75,29 @@ On security hardened build hosts _/var_ must not be mounted with the
 
 ## Disconnected Environments
 
-By default RHEL Image Builder tries to fetch repository data from Red
-Hat CDN. In case internet access is restricted and repositories are
-available on a local Satellite or such, the repository configuration
-for each distribution version used in images must be adjusted.
+By default, RHEL Image Builder attempts to fetch repository data from
+the Red Hat CDN. To use a local Satellite/Capsule a repository
+configuration file needs to be created for each distribution version
+used in blueprints. Each such version must be included in the Satellite
+Content View (CV) that a build host is attached to. Therefore, using
+different build hosts for different distribution major versions could
+be considered.
 
-See [this RHKB article](https://access.redhat.com/solutions/5773421)
-for details how to configure RHEL Image Builder to use a local
+The following options configure Image Builder to use the same
+repository source the build host is using:
+
+```
+rhel_image_use_satellite: true
+rhel_image_repo_versions:
+  - "{{ ansible_facts.distribution_major_version }}"
+```
+
+Custom repository configuration files can also be used with the
+`rhel_image_repo_templates` option.
+
+See [the role README](roles/rhel_image/README.md) and
+[this RHKB article](https://access.redhat.com/solutions/5773421)
+for more details how to configure RHEL Image Builder to use a local
 Satellite.
 
 ## See Also

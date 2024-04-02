@@ -2,6 +2,55 @@
 - name: Gather packages facts
   package_facts:
 
+- name: Create Image Builder configuration directory
+  file:
+    path: /etc/osbuild-composer/repositories
+    mode: '0755'
+    state: directory
+  when: rhel_image_use_satellite | bool
+
+- name: Read system repository configuration
+  vars:
+    rhel_ver: "{{ ansible_facts.distribution_major_version }}"
+    rhel_arch: "{{ ansible_facts.architecture }}"
+  shell: >
+    set -o pipefail &&
+    grep -A 5 '^\[rhel-{{ rhel_ver }}-for-{{ rhel_arch }}-baseos-rpms\]' /etc/yum.repos.d/redhat.repo
+    | awk '/baseurl/ {print $3}'
+  register: rhsm_baseurl
+  changed_when: false
+  when:
+    - rhel_image_use_satellite | bool
+    - rhel_image_repo_versions | default(false, true)
+
+- name: Create basic repository configuration files
+  vars:
+    baseos_repo_url: "{{ rhsm_baseurl.stdout | replace('$releasever', item) }}"
+    appstream_repo_url: "{{ rhsm_baseurl.stdout | replace('$releasever', item) | replace('baseos', 'appstream') }}"
+  template:
+    src: rhel-repo.json.j2
+    dest: /etc/osbuild-composer/repositories/rhel-{{ item }}.json
+    mode: '0644'
+  register: config_basic
+  loop: "{{ rhel_image_repo_versions | default([], true) }}"
+  when: rhel_image_use_satellite | bool
+
+- name: Create custom repository configuration files
+  template:
+    src: "{{ item }}"
+    dest: /etc/osbuild-composer/repositories/{{ item | basename | replace('.j2', '') }}
+    mode: '0644'
+  register: config_custom
+  loop: "{{ rhel_image_repo_templates | default([], true) }}"
+  when: rhel_image_use_satellite | bool
+
+- name: Reboot system
+  reboot:
+  when:
+    - "'osbuild-composer' in ansible_facts.packages"
+    - config_basic is changed or
+      config_custom is changed
+
 - name: Install Image Builder
   yum:
     name:

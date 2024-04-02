@@ -9,11 +9,12 @@
     state: absent
   register: builder_packages
 
-- name: Remove Image Builder data directories
+- name: Remove Image Builder configuration and data directories
   file:
     path: "{{ item }}"
     state: absent
   loop:
+    - /etc/osbuild-composer
     - /var/cache/osbuild-composer
     - /var/cache/osbuild-worker
     - /var/lib/osbuild-composer

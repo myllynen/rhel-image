@@ -22,6 +22,20 @@ rhel_image_create_user: false
 rhel_image_builder_user: image-builder
 rhel_image_reboot_host: false
 
+# Optional repository setup for Satellite/Capsule
+# In case Image Builder was already installed the
+# system will be rebooted to ensure correct usage
+# See https://access.redhat.com/solutions/5773421
+rhel_image_use_satellite: false
+# Repo versions to enable using build host config
+rhel_image_repo_versions:
+#  - "{{ ansible_facts.distribution_major_version }}"
+#  - "{{ ansible_facts.distribution_major_version }}.8"
+# Custom repository configuration templates to copy
+rhel_image_repo_templates:
+#  - rhel-92.json.j2
+#  - rhel-94.json.j2
+
 # Blueprint
 rhel_image_git_remote_repo: file:///tmp/rhel-image-blueprints.git
 rhel_image_git_repo_checkout: master
