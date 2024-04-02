@@ -64,6 +64,9 @@ Finally, build the image on a build host:
 ansible-playbook -i 192.168.122.123, image_builder.yml
 ```
 
+On security hardened build hosts _/var_ must not be mounted with the
+`noexec` mount option.
+
 ## Disconnected Environments
 
 By default RHEL Image Builder tries to fetch repository data from Red
