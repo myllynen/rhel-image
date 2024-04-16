@@ -30,8 +30,8 @@
 # https://bugzilla.redhat.com/show_bug.cgi?id=2023280
 - name: Delete build artifacts
   file:
-    path: "{{ item.path }}"
     state: absent
+    path: "{{ item.path }}"
   loop: "{{ build_artifacts.files }}"
   loop_control:
     label: "{{ item.path }}"
@@ -48,8 +48,8 @@
 
 - name: Delete osbuilder temporary directories
   file:
-    path: "{{ item.path }}"
     state: absent
+    path: "{{ item.path }}"
   loop: "{{ temp_directories.files }}"
   loop_control:
     label: "{{ item.path }}"

@@ -1,8 +1,8 @@
 ---
 - name: Create temporary directory for build logs
   tempfile:
-    suffix: .logs
     state: directory
+    suffix: .logs
   register: logs_directory
 
 - name: Fetch build logs from osbuilder
@@ -28,5 +28,5 @@
 
 - name: Remove temporary logs directory
   file:
-    path: "{{ logs_directory.path }}"
     state: absent
+    path: "{{ logs_directory.path }}"

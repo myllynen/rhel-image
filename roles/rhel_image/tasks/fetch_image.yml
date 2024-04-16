@@ -22,6 +22,6 @@
 
 - name: Remove image file on build host
   file:
-    path: "{{ rhel_image_download_dir }}/{{ image_file.stdout }}"
     state: absent
+    path: "{{ rhel_image_download_dir }}/{{ image_file.stdout }}"
   when: rhel_image_remote_delete | bool

@@ -1,18 +1,18 @@
 ---
 - name: Uninstall Image Builder
   yum:
+    state: absent
     name:
       - 'osbuild*'
       - weldr-client
     autoremove: true
     cacheonly: true
-    state: absent
   register: builder_packages
 
 - name: Remove Image Builder configuration and data directories
   file:
-    path: "{{ item }}"
     state: absent
+    path: "{{ item }}"
   loop:
     - /etc/osbuild-composer
     - /var/cache/osbuild-composer
@@ -32,8 +32,8 @@
 
 - name: Delete osbuilder temporary directories
   file:
-    path: "{{ item.path }}"
     state: absent
+    path: "{{ item.path }}"
   loop: "{{ temp_directories.files }}"
   loop_control:
     label: "{{ item.path }}"

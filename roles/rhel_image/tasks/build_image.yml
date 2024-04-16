@@ -1,8 +1,8 @@
 ---
 - name: Remove earlier image blueprint repo clone
   file:
-    path: "{{ rhel_image_local_repo_path }}"
     state: absent
+    path: "{{ rhel_image_local_repo_path }}"
 
 - name: Clone image blueprint repo
   git:
@@ -62,9 +62,9 @@
 
 - name: Create image download directory
   file:
+    state: directory
     # noqa: risky-file-permissions
     path: "{{ rhel_image_download_dir }}"
-    state: directory
 
 - name: Download image from osbuilder
   vars:
@@ -83,5 +83,5 @@
 
 - name: Remove image blueprint repo clone
   file:
-    path: "{{ rhel_image_local_repo_path }}"
     state: absent
+    path: "{{ rhel_image_local_repo_path }}"
