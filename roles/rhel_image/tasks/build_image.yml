@@ -23,13 +23,13 @@
 - name: Start image build
   vars:
     ostree_ref: "{{ rhel_image_ostree_ref | default(false) }}"
-    ref_option: "{{ ostree_ref | ternary('--ref ' + ostree_ref | string, '', '') }}"
+    ref_option: "{{ ostree_ref | ternary('--ref ' + ostree_ref | string, '') }}"
     ostree_parent: "{{ rhel_image_ostree_parent | default(false) }}"
-    parent_option: "{{ ostree_parent | ternary('--parent ' + ostree_parent | string, '', '') }}"
+    parent_option: "{{ ostree_parent | ternary('--parent ' + ostree_parent | string, '') }}"
     ostree_url: "{{ rhel_image_ostree_url | default(false) }}"
-    url_option: "{{ ostree_url | ternary('--url ' + ostree_url | string, '', '') }}"
+    url_option: "{{ ostree_url | ternary('--url ' + ostree_url | string, '') }}"
     size_kb: "{{ rhel_image_size_kb | default(false) }}"
-    size_option: "{{ size_kb | ternary('--size ' + size_kb | string, '', '') }}"
+    size_option: "{{ size_kb | ternary('--size ' + size_kb | string, '') }}"
     start_cmd: "{{ 'start-ostree' if ostree_ref else 'start' }}"
   command: >
     composer-cli compose {{ start_cmd }} {{ ref_option }} {{ parent_option }} {{ url_option }} {{ size_option }}
@@ -68,7 +68,7 @@
 
 - name: Download image from osbuilder
   vars:
-    build_file: "{{ rhel_image_filename if rhel_image_filename | default(false) else build_uuid }}"
+    build_file: "{{ rhel_image_filename if rhel_image_filename else build_uuid }}"
     cmd_params: "{{ '' if build_file == build_uuid else '--filename ' + build_file }}"
   command:
     cmd: composer-cli compose image {{ build_uuid }} {{ cmd_params }}

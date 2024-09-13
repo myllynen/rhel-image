@@ -1,6 +1,6 @@
 ---
 - name: Uninstall Image Builder
-  yum:
+  dnf:
     state: absent
     name:
       - 'osbuild*'

@@ -52,7 +52,7 @@
       config_custom is changed
 
 - name: Install Image Builder
-  yum:
+  dnf:
     state: present
     name:
       - git-core
@@ -65,7 +65,7 @@
 
 - name: Update all packages
   # noqa: package-latest
-  yum:
+  dnf:
     state: latest
     name: '*'
     update_cache: true
