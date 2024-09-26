@@ -1,8 +1,8 @@
 ---
 - name: Remove earlier image blueprint repo clone
   file:
-    state: absent
     path: "{{ rhel_image_local_repo_path }}"
+    state: absent
 
 - name: Clone image blueprint repo
   git:
@@ -83,5 +83,5 @@
 
 - name: Remove image blueprint repo clone
   file:
-    state: absent
     path: "{{ rhel_image_local_repo_path }}"
+    state: absent

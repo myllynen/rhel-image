@@ -30,8 +30,8 @@
 # https://bugzilla.redhat.com/show_bug.cgi?id=2023280
 - name: Delete build artifacts
   file:
-    state: absent
     path: "{{ item.path }}"
+    state: absent
   loop: "{{ build_artifacts.files }}"
   loop_control:
     label: "{{ item.path }}"
@@ -41,15 +41,15 @@
     paths:
       - /tmp
       - /var/tmp
-    patterns: 'dnf-_osbuild-composer*,tmp*'
     file_type: directory
+    patterns: 'dnf-_osbuild-composer*,tmp*'
     recurse: false
   register: temp_directories
 
 - name: Delete osbuilder temporary directories
   file:
-    state: absent
     path: "{{ item.path }}"
+    state: absent
   loop: "{{ temp_directories.files }}"
   loop_control:
     label: "{{ item.path }}"

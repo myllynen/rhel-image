@@ -4,8 +4,8 @@
 
 - name: Create Image Builder configuration directory
   file:
-    state: directory
     path: /etc/osbuild-composer/repositories
+    state: directory
     mode: '0755'
   when: rhel_image_use_satellite | bool
 
@@ -53,30 +53,30 @@
 
 - name: Install Image Builder
   dnf:
-    state: present
     name:
       - git-core
       - osbuild-composer
       - python3
       - tar
       - weldr-client
+    state: present
   register: builder_packages
   when: "'osbuild-composer' not in ansible_facts.packages"
 
 - name: Update all packages
   # noqa: package-latest
   dnf:
-    state: latest
     name: '*'
+    state: latest
     update_cache: true
   register: package_update
   when: rhel_image_update_host | bool
 
 - name: Enable Image Builder
   service:
-    enabled: true
-    state: started
     name: osbuild-composer.socket
+    state: started
+    enabled: true
   register: builder_socket
 
 - name: Create user for building images

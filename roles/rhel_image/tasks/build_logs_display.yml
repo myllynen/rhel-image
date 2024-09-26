@@ -28,5 +28,5 @@
 
 - name: Remove temporary logs directory
   file:
-    state: absent
     path: "{{ logs_directory.path }}"
+    state: absent
