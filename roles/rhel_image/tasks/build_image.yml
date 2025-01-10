@@ -9,6 +9,8 @@
     repo: "{{ rhel_image_git_remote_repo }}"
     dest: "{{ rhel_image_local_repo_path }}"
     version: "{{ rhel_image_git_repo_checkout }}"
+    key_file: "{{ rhel_image_git_key_file | default(omit) }}"
+    accept_newhostkey: true
 
 - name: Push image blueprint to osbuilder
   command:
