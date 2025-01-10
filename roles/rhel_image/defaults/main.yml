@@ -26,6 +26,7 @@ rhel_image_repo_templates:
 #  - rhel-94.json.j2
 
 # Blueprint
+#rhel_image_git_key_file:
 rhel_image_git_remote_repo: file:///tmp/rhel-image-blueprints.git
 rhel_image_git_repo_checkout: master
 rhel_image_local_repo_path: /tmp/blueprint-repo
