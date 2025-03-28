@@ -17,6 +17,9 @@ part of the _weldr_ group) for running Image Builder. Then, images can
 be built either by the superuser or the dedicated user with any given
 blueprint.
 
+The upstream blueprint reference is at
+[https://osbuild.org/docs/user-guide/blueprint-reference/](https://osbuild.org/docs/user-guide/blueprint-reference/).
+
 To install this collection from GitHub:
 
 ```
