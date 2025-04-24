@@ -1,6 +1,6 @@
 ---
 - name: Uninstall Image Builder
-  dnf:
+  ansible.builtin.dnf:
     name:
       - 'osbuild*'
       - weldr-client
@@ -10,7 +10,7 @@
   register: builder_packages
 
 - name: Remove Image Builder configuration and data directories
-  file:
+  ansible.builtin.file:
     path: "{{ item }}"
     state: absent
   loop:
@@ -21,7 +21,7 @@
   register: data_directories
 
 - name: Get list of osbuilder temporary directories
-  find:
+  ansible.builtin.find:
     paths:
       - /tmp
       - /var/tmp
@@ -31,7 +31,7 @@
   register: temp_directories
 
 - name: Delete osbuilder temporary directories
-  file:
+  ansible.builtin.file:
     path: "{{ item.path }}"
     state: absent
   loop: "{{ temp_directories.files }}"
@@ -40,7 +40,7 @@
   when: item.pw_name == '_osbuild-composer'
 
 - name: Reboot system
-  reboot:
+  ansible.builtin.reboot:
   when:
     - rhel_image_reboot_host | bool
     - builder_packages is changed or

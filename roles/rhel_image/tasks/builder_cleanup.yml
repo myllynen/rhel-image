@@ -1,23 +1,23 @@
 ---
 - name: Get list of builds
-  command: composer-cli compose list
+  ansible.builtin.command: composer-cli compose list
   register: build_list
   changed_when: false
 
 - name: Delete builds
-  command: composer-cli compose delete {{ item | split | first }}
+  ansible.builtin.command: composer-cli compose delete {{ item | split | first }}
   register: build_delete
   changed_when: true
   loop: "{{ build_list.stdout_lines | reject('search', 'Status') }}"
 
 - name: Wait for build deletion to complete
-  pause:
+  ansible.builtin.pause:
     seconds: 10
   when: build_delete is changed
 
 # https://bugzilla.redhat.com/show_bug.cgi?id=2023280
 - name: Get list of build artifacts to delete
-  find:
+  ansible.builtin.find:
     paths:
       - /var/cache/osbuild-worker/osbuild-store/tmp
       - /var/cache/osbuild-worker/output
@@ -29,7 +29,7 @@
 
 # https://bugzilla.redhat.com/show_bug.cgi?id=2023280
 - name: Delete build artifacts
-  file:
+  ansible.builtin.file:
     path: "{{ item.path }}"
     state: absent
   loop: "{{ build_artifacts.files }}"
@@ -37,7 +37,7 @@
     label: "{{ item.path }}"
 
 - name: Get list of osbuilder temporary directories
-  find:
+  ansible.builtin.find:
     paths:
       - /tmp
       - /var/tmp
@@ -47,7 +47,7 @@
   register: temp_directories
 
 - name: Delete osbuilder temporary directories
-  file:
+  ansible.builtin.file:
     path: "{{ item.path }}"
     state: absent
   loop: "{{ temp_directories.files }}"

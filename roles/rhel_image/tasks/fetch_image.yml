@@ -1,12 +1,12 @@
 ---
 - name: Update image directory permissions
-  file:
+  ansible.builtin.file:
     path: "{{ rhel_image_download_dir }}"
     mode: o+rx
   when: "'SUDO_USER' in ansible_facts.env"
 
 - name: Update image file permissions
-  file:
+  ansible.builtin.file:
     path: "{{ rhel_image_download_dir }}/{{ image_file.stdout }}"
     owner: "{{ ansible_facts.env.SUDO_USER }}"
     mode: '0600'
@@ -15,13 +15,13 @@
 # Without "become: false" this would take forever
 - name: Fetch image file from build host
   become: false
-  fetch:
+  ansible.builtin.fetch:
     src: "{{ rhel_image_download_dir }}/{{ image_file.stdout }}"
     dest: "{{ rhel_image_fetch_directory }}/{{ image_file.stdout }}"
     flat: true
 
 - name: Remove image file on build host
-  file:
+  ansible.builtin.file:
     path: "{{ rhel_image_download_dir }}/{{ image_file.stdout }}"
     state: absent
   when: rhel_image_remote_delete | bool

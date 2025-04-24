@@ -1,11 +1,11 @@
 ---
 - name: Remove earlier image blueprint repo clone
-  file:
+  ansible.builtin.file:
     path: "{{ rhel_image_local_repo_path }}"
     state: absent
 
 - name: Clone image blueprint repo
-  git:
+  ansible.builtin.git:
     repo: "{{ rhel_image_git_remote_repo }}"
     dest: "{{ rhel_image_local_repo_path }}"
     version: "{{ rhel_image_git_repo_checkout }}"
@@ -13,13 +13,13 @@
     accept_newhostkey: true
 
 - name: Push image blueprint to osbuilder
-  command:
+  ansible.builtin.command:
     cmd: composer-cli blueprints push {{ rhel_image_blueprint }}.toml
     chdir: "{{ rhel_image_local_repo_path }}"
   changed_when: true
 
 - name: Verify image blueprint
-  command: composer-cli blueprints depsolve {{ rhel_image_blueprint }}
+  ansible.builtin.command: composer-cli blueprints depsolve {{ rhel_image_blueprint }}
   changed_when: true
 
 - name: Start image build
@@ -33,18 +33,18 @@
     size_kb: "{{ rhel_image_size_kb | default(false) }}"
     size_option: "{{ size_kb | ternary('--size ' + size_kb | string, '') }}"
     start_cmd: "{{ 'start-ostree' if ostree_ref else 'start' }}"
-  command: >
+  ansible.builtin.command: >
     composer-cli compose {{ start_cmd }} {{ ref_option }} {{ parent_option }} {{ url_option }} {{ size_option }}
     {{ rhel_image_blueprint }} {{ rhel_image_output_type }}
   register: build_command
   changed_when: true
 
 - name: Record build UUID
-  set_fact:
+  ansible.builtin.set_fact:
     build_uuid: "{{ build_command.stdout_lines[0].split()[1] }}"
 
 - name: Wait for image build to complete
-  command: composer-cli compose info {{ build_uuid }}
+  ansible.builtin.command: composer-cli compose info {{ build_uuid }}
   register: build_status
   failed_when: "'not a valid build' in build_status.stderr or 'FAILED' in build_status.stdout"
   changed_when: false
@@ -54,16 +54,16 @@
   delay: 30
 
 - name: Display failed build logs
-  include_tasks: build_logs_display.yml
+  ansible.builtin.include_tasks: build_logs_display.yml
   when: "'not a valid build' in build_status.stderr or 'FAILED' in build_status.stdout"
 
 - name: Fail if build not successful
-  fail:
+  ansible.builtin.fail:
     msg: "Build failed."
   when: "'not a valid build' in build_status.stderr or 'FAILED' in build_status.stdout"
 
 - name: Create image download directory
-  file:
+  ansible.builtin.file:
     state: directory
     # noqa: risky-file-permissions
     path: "{{ rhel_image_download_dir }}"
@@ -72,18 +72,18 @@
   vars:
     build_file: "{{ rhel_image_filename if rhel_image_filename else build_uuid }}"
     cmd_params: "{{ '' if build_file == build_uuid else '--filename ' + build_file }}"
-  command:
+  ansible.builtin.command:
     cmd: composer-cli compose image {{ build_uuid }} {{ cmd_params }}
     chdir: "{{ rhel_image_download_dir }}"
   register: image_file
   changed_when: true
 
 - name: Delete image build from osbuilder
-  command: composer-cli compose delete {{ build_uuid }}
+  ansible.builtin.command: composer-cli compose delete {{ build_uuid }}
   changed_when: true
   when: rhel_image_build_remove | bool
 
 - name: Remove image blueprint repo clone
-  file:
+  ansible.builtin.file:
     path: "{{ rhel_image_local_repo_path }}"
     state: absent

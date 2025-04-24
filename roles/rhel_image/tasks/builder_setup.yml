@@ -1,9 +1,9 @@
 ---
 - name: Gather packages facts
-  package_facts:
+  ansible.builtin.package_facts:
 
 - name: Create Image Builder configuration directory
-  file:
+  ansible.builtin.file:
     path: /etc/osbuild-composer/repositories
     state: directory
     mode: '0755'
@@ -13,7 +13,7 @@
   vars:
     rhel_ver: "{{ ansible_facts.distribution_major_version }}"
     rhel_arch: "{{ ansible_facts.architecture }}"
-  shell: >
+  ansible.builtin.shell: >
     set -o pipefail &&
     grep -A 5 '^\[rhel-{{ rhel_ver }}-for-{{ rhel_arch }}-baseos-rpms\]' /etc/yum.repos.d/redhat.repo
     | awk '/baseurl/ {print $3}'
@@ -27,7 +27,7 @@
   vars:
     baseos_repo_url: "{{ rhsm_baseurl.stdout | replace('$releasever', item) }}"
     appstream_repo_url: "{{ rhsm_baseurl.stdout | replace('$releasever', item) | replace('baseos', 'appstream') }}"
-  template:
+  ansible.builtin.template:
     src: rhel-repo.json.j2
     dest: /etc/osbuild-composer/repositories/rhel-{{ item }}.json
     mode: '0644'
@@ -36,7 +36,7 @@
   when: rhel_image_use_satellite | bool
 
 - name: Create custom repository configuration files
-  template:
+  ansible.builtin.template:
     src: "{{ item }}"
     dest: /etc/osbuild-composer/repositories/{{ item | basename | replace('.j2', '') }}
     mode: '0644'
@@ -45,14 +45,14 @@
   when: rhel_image_use_satellite | bool
 
 - name: Reboot system
-  reboot:
+  ansible.builtin.reboot:
   when:
     - "'osbuild-composer' in ansible_facts.packages"
     - config_basic is changed or
       config_custom is changed
 
 - name: Install Image Builder
-  dnf:
+  ansible.builtin.dnf:
     name:
       - git-core
       - osbuild-composer
@@ -65,7 +65,7 @@
 
 - name: Update all packages
   # noqa: package-latest
-  dnf:
+  ansible.builtin.dnf:
     name: '*'
     state: latest
     update_cache: true
@@ -73,14 +73,14 @@
   when: rhel_image_update_host | bool
 
 - name: Enable Image Builder
-  service:
+  ansible.builtin.service:
     name: osbuild-composer.socket
     state: started
     enabled: true
   register: builder_socket
 
 - name: Create user for building images
-  user:
+  ansible.builtin.user:
     name: "{{ rhel_image_builder_user }}"
     groups: weldr
     append: true
@@ -88,7 +88,7 @@
   when: rhel_image_create_user | bool
 
 - name: Reboot system
-  reboot:
+  ansible.builtin.reboot:
   when:
     - rhel_image_reboot_host | bool
     - builder_packages is changed or

@@ -1,32 +1,32 @@
 ---
 - name: Create temporary directory for build logs
-  tempfile:
+  ansible.builtin.tempfile:
     state: directory
     suffix: .logs
   register: logs_directory
 
 - name: Fetch build logs from osbuilder
-  command:
+  ansible.builtin.command:
     cmd: composer-cli compose logs {{ build_uuid }}
     chdir: "{{ logs_directory.path }}"
   changed_when: true
 
 - name: Extract build logs archive
-  unarchive:
+  ansible.builtin.unarchive:
     src: "{{ logs_directory.path }}/{{ build_uuid }}-logs.tar"
     dest: "{{ logs_directory.path }}"
     remote_src: true
 
 - name: Read complete build logs
-  slurp:
+  ansible.builtin.slurp:
     src: "{{ logs_directory.path + '/logs/osbuild.log' }}"
   register: log_content
 
 - name: Display complete build logs
-  debug:
+  ansible.builtin.debug:
     msg: "{{ log_content.content | b64decode }}"
 
 - name: Remove temporary logs directory
-  file:
+  ansible.builtin.file:
     path: "{{ logs_directory.path }}"
     state: absent
