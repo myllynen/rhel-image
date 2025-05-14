@@ -1,11 +1,11 @@
-# https://www.osbuild.org/guides/blueprint-reference/blueprint-reference.html
+# https://osbuild.org/docs/user-guide/blueprint-reference/
 
 #
 # Base definition
 #
 name = "base-image"
 description = "RHEL Base Image"
-version = "2024.11.15"
+version = "2025.05.15"
 distro = "rhel-9"
 
 #
@@ -15,36 +15,66 @@ distro = "rhel-9"
 append = "net.ifnames.prefix=net quiet"
 
 #
-# Filesystem
+# Partitions
 #
-[[customizations.filesystem]]
+[[customizations.disk.partitions]]
+type = "plain"
+label = "boot"
 mountpoint = "/boot"
-size = "1 GiB"
-# https://issues.redhat.com/browse/RHEL-4636
-#[[customizations.filesystem]]
-#mountpoint = "swap"
-#size = "2 GiB"
-[[customizations.filesystem]]
+fs_type = "xfs"
+minsize = "1 GiB"
+[[customizations.disk.partitions]]
+type = "lvm"
+name = "vg_root"
+minsize = "30 GiB"
+
+[[customizations.disk.partitions.logical_volumes]]
+name = "lv_root"
 mountpoint = "/"
-size = "8 GiB"
-[[customizations.filesystem]]
+label = "root"
+fs_type = "xfs"
+minsize = "8 GiB"
+[[customizations.disk.partitions.logical_volumes]]
+name = "lv_home"
 mountpoint = "/home"
-size = "2 GiB"
-[[customizations.filesystem]]
+label = "home"
+fs_type = "xfs"
+minsize = "2 GiB"
+[[customizations.disk.partitions.logical_volumes]]
+name = "lv_swap"
+label = "swap"
+fs_type = "swap"
+minsize = "2 GiB"
+[[customizations.disk.partitions.logical_volumes]]
+name = "lv_tmp"
 mountpoint = "/tmp"
-size = "2 GiB"
-[[customizations.filesystem]]
+label = "tmp"
+fs_type = "xfs"
+minsize = "2 GiB"
+[[customizations.disk.partitions.logical_volumes]]
+name = "lv_var"
 mountpoint = "/var"
-size = "8 GiB"
-[[customizations.filesystem]]
+label = "var"
+fs_type = "xfs"
+minsize = "8 GiB"
+[[customizations.disk.partitions.logical_volumes]]
+name = "lv_var_log"
 mountpoint = "/var/log"
-size = "2 GiB"
-[[customizations.filesystem]]
+label = "var_log"
+fs_type = "xfs"
+minsize = "2 GiB"
+[[customizations.disk.partitions.logical_volumes]]
+name = "lv_v_l_audit"
 mountpoint = "/var/log/audit"
-size = "2 GiB"
-[[customizations.filesystem]]
+label = "v_l_audit"
+fs_type = "xfs"
+minsize = "2 GiB"
+[[customizations.disk.partitions.logical_volumes]]
+name = "lv_var_tmp"
 mountpoint = "/var/tmp"
-size = "2 GiB"
+label = "var_tmp"
+fs_type = "xfs"
+minsize = "2 GiB"
 
 #
 # Timezone
@@ -103,6 +133,14 @@ name = "setools-console"
 #name = "unzip"
 #[[packages]]
 #name = "vim-enhanced"
+#[[packages]]
+#name = "zstd"
+
+#
+# FIPS mode
+#
+#[customizations]
+#fips = true
 
 #
 # Security compliance
@@ -119,7 +157,7 @@ name = "setools-console"
 #
 [[customizations.sshkey]]
 user = "root"
-key = "ssh-ed25519 ... id_ed25519.pub"
+key = "ssh-ed25519 changeme id_ed25519.pub"
 
 #
 # User
@@ -128,7 +166,7 @@ key = "ssh-ed25519 ... id_ed25519.pub"
 name = "admin"
 description = "Admin User"
 #password = "$6$..."
-key = "ssh-ed25519 changeme"
+key = "ssh-ed25519 changeme id_ed25519.pub"
 home = "/home/admin"
 shell = "/bin/bash"
 groups = ["wheel"]
