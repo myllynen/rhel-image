@@ -2,10 +2,11 @@
 - name: Uninstall Image Builder
   ansible.builtin.dnf:
     name:
-      - 'osbuild*'
+      - '*composefs*'
+      - '*osbuild*'
       - weldr-client
     state: absent
-    autoremove: true
+    autoremove: false
     cacheonly: true
   register: builder_packages
 
