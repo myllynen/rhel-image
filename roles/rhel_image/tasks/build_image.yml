@@ -41,7 +41,7 @@
 
 - name: Record build UUID
   ansible.builtin.set_fact:
-    build_uuid: "{{ build_command.stdout_lines[0].split()[1] }}"
+    build_uuid: "{{ (build_command.stdout_lines | select('search', '^Compose ') | first).split()[1] }}"
 
 - name: Wait for image build to complete
   ansible.builtin.command: composer-cli compose info {{ build_uuid }}
