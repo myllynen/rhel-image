@@ -155,8 +155,8 @@ name = "setools-console"
 #
 # Root
 #
-[[customizations.sshkey]]
-user = "root"
+[[customizations.user]]
+name = "root"
 key = "ssh-ed25519 changeme id_ed25519.pub"
 
 #
