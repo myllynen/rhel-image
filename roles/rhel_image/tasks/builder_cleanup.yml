@@ -19,6 +19,7 @@
 - name: Get list of build artifacts to delete
   ansible.builtin.find:
     paths:
+      - /var/cache/osbuild-worker/osbuild-store/stage
       - /var/cache/osbuild-worker/osbuild-store/tmp
       - /var/cache/osbuild-worker/output
       - /var/lib/osbuild-composer/artifacts/tmp
