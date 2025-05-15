@@ -9,7 +9,9 @@
 
 - name: Fetch image
   ansible.builtin.include_tasks: fetch_image.yml
-  when: rhel_image_fetch_image | bool
+  when:
+    - rhel_image_do_build | bool
+    - rhel_image_fetch_image | bool
 
 - name: Clean up Image Builder
   ansible.builtin.include_tasks: builder_cleanup.yml
