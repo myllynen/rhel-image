@@ -77,7 +77,7 @@ fs_type = "xfs"
 minsize = "2 GiB"
 
 #
-# Timezone
+# Time
 #
 [customizations.timezone]
 timezone = "Europe/Helsinki"
