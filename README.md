@@ -7,7 +7,7 @@ Ansible role for building RHEL images with Image Builder.
 ## Quick Usage Example
 
 This role builds custom RHEL images with
-[RHEL Image Builder](https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/9/html/composing_a_customized_rhel_system_image/index).
+[RHEL Image Builder](https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/10/html/composing_a_customized_rhel_system_image/index).
 The role uses a given image blueprint from a Git repository and either
 stores results on the build host or fetches them to the local node.
 

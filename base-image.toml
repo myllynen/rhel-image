@@ -5,8 +5,8 @@
 #
 name = "base-image"
 description = "RHEL Base Image"
-version = "2025.05.15"
-distro = "rhel-9"
+version = "2025.06.19"
+distro = "rhel-10"
 
 #
 # Boot parameters
@@ -133,8 +133,8 @@ name = "setools-console"
 #name = "unzip"
 #[[packages]]
 #name = "vim-enhanced"
-#[[packages]]
-#name = "zstd"
+[[packages]]
+name = "zstd"
 
 #
 # FIPS mode
