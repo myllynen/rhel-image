@@ -41,7 +41,7 @@ rhel_image_build_remove: true
 
 # Image - only define needed options
 rhel_image_output_type: qcow2
-rhel_image_size_kb:
+rhel_image_size:
 rhel_image_ostree_ref:
 rhel_image_ostree_parent:
 rhel_image_ostree_url:
