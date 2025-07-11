@@ -30,8 +30,8 @@
     parent_option: "{{ ostree_parent | ternary('--parent ' + ostree_parent | string, '') }}"
     ostree_url: "{{ rhel_image_ostree_url | default(false) }}"
     url_option: "{{ ostree_url | ternary('--url ' + ostree_url | string, '') }}"
-    size_kb: "{{ rhel_image_size_kb | default(false) }}"
-    size_option: "{{ size_kb | ternary('--size ' + size_kb | string, '') }}"
+    size_mb: "{{ rhel_image_size | default(false) }}"
+    size_option: "{{ size_mb | ternary('--size ' + size_mb | string, '') }}"
     start_cmd: "{{ 'start-ostree' if ostree_ref else 'start' }}"
   ansible.builtin.command: >
     composer-cli compose {{ start_cmd }} {{ ref_option }} {{ parent_option }} {{ url_option }} {{ size_option }}
