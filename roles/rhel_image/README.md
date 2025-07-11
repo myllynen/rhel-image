@@ -33,8 +33,8 @@ rhel_image_repo_versions:
 #  - "{{ ansible_facts.distribution_major_version }}.8"
 # Custom repository configuration templates to copy
 rhel_image_repo_templates:
-#  - rhel-92.json.j2
 #  - rhel-94.json.j2
+#  - rhel-96.json.j2
 
 # Blueprint
 #rhel_image_git_key_file:
