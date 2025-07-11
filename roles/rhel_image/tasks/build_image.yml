@@ -4,6 +4,11 @@
     path: "{{ rhel_image_local_repo_path }}"
     state: absent
 
+- name: Fail if old misleading size parameter is used
+  ansible.builtin.fail:
+    msg: "Use 'rhel_image_size' (in MiB), not 'rhel_image_size_kb' (was also in MiB)."
+  when: rhel_image_size_kb is defined
+
 - name: Clone image blueprint repo
   ansible.builtin.git:
     repo: "{{ rhel_image_git_remote_repo }}"

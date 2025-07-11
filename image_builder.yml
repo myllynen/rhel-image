@@ -10,7 +10,8 @@
     rhel_image_git_repo_checkout: master
     rhel_image_blueprint: base-image
     rhel_image_output_type: qcow2
-    rhel_image_size_kb: 30720
+    # NB. This is in MiB
+    rhel_image_size: 30720
     # Optional image filename to use instead of UUID
     #rhel_image_filename: ci-daily-image.qcow2
 

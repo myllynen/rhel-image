@@ -52,8 +52,8 @@ rhel_image_build_remove: true
 
 # Image - only define needed options
 rhel_image_output_type: qcow2
-rhel_image_size:  # (in MiB, not KiB)
-# Note: The variable was renamed from rhel_image_size_kb to rhel_image_size because according to the composer-cli documentation, the --size option is in MiB (megabytes), not KiB (kilobytes). Using the correct unit avoids confusion and potential build errors.
+# NB. This is in MiB
+rhel_image_size:
 rhel_image_ostree_ref:
 rhel_image_ostree_parent:
 rhel_image_ostree_url:
