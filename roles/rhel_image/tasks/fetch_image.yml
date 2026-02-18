@@ -1,4 +1,12 @@
 ---
+- name: Gather needed facts
+  ansible.builtin.setup:
+    gather_subset:
+      - '!all'
+      - '!min'
+      - env
+  when: ansible_facts.env is not defined
+
 - name: Update image directory permissions
   ansible.builtin.file:
     path: "{{ rhel_image_download_dir }}"

@@ -1,4 +1,14 @@
 ---
+- name: Gather needed facts
+  ansible.builtin.setup:
+    gather_subset:
+      - '!all'
+      - '!min'
+      - distribution_major_version
+      - platform
+  when: ansible_facts.architecture is not defined or
+        ansible_facts.distribution_major_version is not defined
+
 - name: Gather packages facts
   ansible.builtin.package_facts:
 
