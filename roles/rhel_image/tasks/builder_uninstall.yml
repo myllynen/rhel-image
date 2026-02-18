@@ -7,7 +7,7 @@
       - weldr-client
     state: absent
     autoremove: false
-    cacheonly: true
+    #cacheonly: true
   register: __rhi_builder_packages
 
 - name: Remove Image Builder configuration and data directories
