@@ -56,6 +56,7 @@
 
 - name: Reboot system
   ansible.builtin.reboot:
+  register: __rhi_reboot_config
   when:
     - "'osbuild-composer' in ansible_facts.packages"
     - __rhi_config_basic is changed or
@@ -99,6 +100,7 @@
 
 - name: Reboot system
   ansible.builtin.reboot:
+  register: __rhi_reboot_install
   when:
     - rhel_image_reboot_host | bool
     - __rhi_builder_packages is changed or

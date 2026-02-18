@@ -9,6 +9,32 @@
     msg: "Use 'rhel_image_size' (in MiB), not 'rhel_image_size_kb' (was also in MiB)."
   when: rhel_image_size_kb is defined
 
+- name: Find system builder repo files
+  ansible.builtin.find:
+    paths:
+      - /usr/share/osbuild-composer/repositories
+  register: __rhi_system_repo_files_found
+  when: rhel_image_system_repos_remove | bool
+
+- name: Remove unwanted system builder repo files
+  ansible.builtin.file:
+    path: "{{ item.path }}"
+    state: absent
+  loop: "{{ __rhi_system_repo_files_found.files }}"
+  loop_control:
+    label: "{{ item.path | basename }}"
+  register: __rhi_system_repo_files_removed
+  when:
+    - rhel_image_system_repos_remove | bool
+    - item.path | basename not in rhel_image_system_repos_keep | default([], true)
+
+- name: Reboot system
+  ansible.builtin.reboot:
+  when:
+    - __rhi_reboot_config | default(false) is not changed
+    - __rhi_reboot_install | default(false) is not changed
+    - __rhi_system_repo_files_removed is changed
+
 - name: Clone image blueprint repo
   ansible.builtin.git:
     repo: "{{ rhel_image_git_remote_repo }}"

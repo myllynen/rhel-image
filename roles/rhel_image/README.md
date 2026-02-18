@@ -30,11 +30,24 @@ rhel_image_use_satellite: false
 # Repo versions to enable using build host config
 rhel_image_repo_versions:
 #  - "{{ ansible_facts.distribution_major_version }}"
-#  - "{{ ansible_facts.distribution_major_version }}.8"
+#  - "{{ ansible_facts.distribution_major_version }}.6"
 # Custom repository configuration templates to copy
 rhel_image_repo_templates:
-#  - rhel-94.json.j2
-#  - rhel-96.json.j2
+#  - rhel-9.6.json.j2
+#  - rhel-10.1.json.j2
+
+# Optionally remove unneeded system repo configs
+# to avoid downloading lots of useless metadata.
+# NB. Repo configs are provided by RHEL RPMs so
+#     to restore them reinstall the builder RPMs
+# In case of repo config file were removed then
+# system will be rebooted to ensure correct usage
+rhel_image_system_repos_remove: false
+
+# Optional list of system repo config files to keep
+rhel_image_system_repos_keep:
+#  - rhel-9.json
+#  - rhel-10.json
 
 # Blueprint
 #rhel_image_git_key_file:
