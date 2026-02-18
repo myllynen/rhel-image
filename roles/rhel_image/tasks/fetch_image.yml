@@ -15,7 +15,7 @@
 
 - name: Update image file permissions
   ansible.builtin.file:
-    path: "{{ rhel_image_download_dir }}/{{ image_file.stdout }}"
+    path: "{{ rhel_image_download_dir }}/{{ __rhi_image_file.stdout }}"
     owner: "{{ ansible_facts.env.SUDO_USER }}"
     mode: '0600'
   when: "'SUDO_USER' in ansible_facts.env"
@@ -24,12 +24,12 @@
 - name: Fetch image file from build host
   become: false
   ansible.builtin.fetch:
-    src: "{{ rhel_image_download_dir }}/{{ image_file.stdout }}"
-    dest: "{{ rhel_image_fetch_directory }}/{{ image_file.stdout }}"
+    src: "{{ rhel_image_download_dir }}/{{ __rhi_image_file.stdout }}"
+    dest: "{{ rhel_image_fetch_directory }}/{{ __rhi_image_file.stdout }}"
     flat: true
 
 - name: Remove image file on build host
   ansible.builtin.file:
-    path: "{{ rhel_image_download_dir }}/{{ image_file.stdout }}"
+    path: "{{ rhel_image_download_dir }}/{{ __rhi_image_file.stdout }}"
     state: absent
   when: rhel_image_remote_delete | bool
