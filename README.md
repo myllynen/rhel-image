@@ -41,6 +41,7 @@ Then, create a [playbook](image_builder.yml) to use this role:
 - name: Build RHEL image with Image Builder
   hosts: all
   become: true
+  gather_facts: false
   vars:
     rhel_image_update_host: false
     rhel_image_create_user: false
@@ -80,12 +81,17 @@ On security hardened build hosts _/var_ must not be mounted with the
 ## Disconnected Environments
 
 By default, RHEL Image Builder attempts to fetch repository data from
-the Red Hat CDN. To use a local Satellite/Capsule a repository
+the Red Hat CDN. To use a local Red Hat Satellite/Capsule a repository
 configuration file needs to be created for each distribution version
 used in blueprints. Each such version must be included in the Satellite
 Content View (CV) that a build host is attached to. Therefore, using
 different build hosts for different distribution major versions could
 be considered.
+
+Unfortunately, by default RHEL Image Builder tries to download metadata
+for a large number of RHEL minor versions, even if most of them are
+already obsolete. This can be very time-consuming so especially with
+Red Hat Satellite consider using `rhel_image_system_repos_remove`.
 
 The following options configure Image Builder to use the same
 repository source the build host is using:
@@ -94,6 +100,7 @@ repository source the build host is using:
 rhel_image_use_satellite: true
 rhel_image_repo_versions:
   - "{{ ansible_facts.distribution_major_version }}"
+rhel_image_system_repos_remove: true
 ```
 
 Custom repository configuration files can also be used with the
