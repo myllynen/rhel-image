@@ -31,7 +31,7 @@
   changed_when: false
   when:
     - rhel_image_use_satellite | bool
-    - rhel_image_repo_versions | default(false, true)
+    - rhel_image_repo_versions | select | length > 0
 
 - name: Create basic repository configuration files
   vars:
@@ -42,7 +42,7 @@
     dest: /etc/osbuild-composer/repositories/rhel-{{ item }}.json
     mode: '0644'
   register: __rhi_config_basic
-  loop: "{{ rhel_image_repo_versions | default([], true) }}"
+  loop: "{{ rhel_image_repo_versions | select }}"
   when: rhel_image_use_satellite | bool
 
 - name: Create custom repository configuration files
@@ -51,7 +51,7 @@
     dest: /etc/osbuild-composer/repositories/{{ item | basename | replace('.j2', '') }}
     mode: '0644'
   register: __rhi_config_custom
-  loop: "{{ rhel_image_repo_templates | default([], true) }}"
+  loop: "{{ rhel_image_repo_templates | select }}"
   when: rhel_image_use_satellite | bool
 
 - name: Reboot system
