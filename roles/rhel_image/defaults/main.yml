@@ -51,6 +51,10 @@ rhel_image_download_dir: /tmp/images
 # Optional image filename to use instead of UUID
 rhel_image_filename:
 rhel_image_build_remove: true
+# How many retries to check for the build status
+rhel_image_build_check_retries: 30
+# How long delay between each build status check
+rhel_image_build_check_delay: 30
 
 # Image - only define needed options
 rhel_image_output_type: qcow2

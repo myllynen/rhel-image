@@ -23,5 +23,6 @@
     # This is where this playbook runs
     rhel_image_fetch_directory: /tmp
     rhel_image_remote_delete: true
+
   roles:
     - myllynen.rhel_image.rhel_image

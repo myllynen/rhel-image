@@ -31,8 +31,8 @@
 - name: Reboot system
   ansible.builtin.reboot:
   when:
-    - __rhi_reboot_config | default(false) is not changed
-    - __rhi_reboot_install | default(false) is not changed
+    - __rhi_reboot_config | default({}) is not changed
+    - __rhi_reboot_install | default({}) is not changed
     - __rhi_system_repo_files_removed is changed
 
 - name: Clone image blueprint repo
@@ -82,8 +82,8 @@
   changed_when: false
   ignore_errors: true
   until: "'not a valid build' in __rhi_build_status.stderr or 'FAILED' in __rhi_build_status.stdout or 'FINISHED' in __rhi_build_status.stdout"
-  retries: 30
-  delay: 30
+  retries: "{{ rhel_image_build_check_retries | default(30) }}"
+  delay: "{{ rhel_image_build_check_delay | default(30) }}"
 
 - name: Display failed build logs
   ansible.builtin.include_tasks: build_logs_display.yml
