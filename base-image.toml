@@ -5,7 +5,7 @@
 #
 name = "base-image"
 description = "RHEL Base Image"
-version = "2025.06.19"
+version = "2026.05.22"
 distro = "rhel-10"
 
 #
@@ -125,10 +125,6 @@ name = "nano"
 ## https://issues.redhat.com/browse/RHELPLAN-108305
 #[[packages]]
 #name = "perl-File-Temp"
-[[packages]]
-name = "python3"
-[[packages]]
-name = "setools-console"
 #[[packages]]
 #name = "unzip"
 #[[packages]]
@@ -145,12 +141,18 @@ name = "zstd"
 #
 # Security compliance
 #
-# Run something like the following for the needed blueprint changes:
+# To see blueprint requirements for a profile use:
 # oscap xccdf generate fix --fix-type blueprint --profile cis \
 #   /usr/share/xml/scap/ssg/content/ssg-rhel10-ds.xml
 #[customizations.openscap]
 #datastream = "/usr/share/xml/scap/ssg/content/ssg-rhel10-ds.xml"
 #profile_id = "xccdf_org.ssgproject.content_profile_cis"
+#[customizations.openscap.tailoring]
+#selected = ["bind_crypto_policy"]
+#unselected = ["grub2_password"]
+#[[customizations.openscap.tailoring.overrides]]
+#var = "sshd_idle_timeout_value"
+#value = "900"
 
 #
 # Root
