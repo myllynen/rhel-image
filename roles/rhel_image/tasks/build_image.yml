@@ -51,7 +51,7 @@
 
 - name: Verify image blueprint
   ansible.builtin.command: composer-cli blueprints depsolve {{ rhel_image_blueprint }}
-  changed_when: true
+  changed_when: false
 
 - name: Start image build
   vars:
@@ -82,8 +82,8 @@
   changed_when: false
   ignore_errors: true
   until: "'not a valid build' in __rhi_build_status.stderr or 'FAILED' in __rhi_build_status.stdout or 'FINISHED' in __rhi_build_status.stdout"
-  retries: "{{ rhel_image_build_check_retries | default(30) }}"
-  delay: "{{ rhel_image_build_check_delay | default(30) }}"
+  retries: "{{ rhel_image_build_check_retries }}"
+  delay: "{{ rhel_image_build_check_delay }}"
 
 - name: Display failed build logs
   ansible.builtin.include_tasks: build_logs_display.yml

@@ -29,7 +29,7 @@ rhel_image_repo_templates:
 # to avoid downloading lots of useless metadata.
 # NB. Repo configs are provided by RHEL RPMs so
 #     to restore them reinstall the builder RPMs
-# In case of repo config file were removed then
+# In case repo config files were removed then
 # system will be rebooted to ensure correct usage
 rhel_image_system_repos_remove: false
 
