@@ -28,11 +28,11 @@ rhel_image_reboot_host: false
 # See https://access.redhat.com/solutions/5773421
 rhel_image_use_satellite: false
 # Repo versions to enable using build host config
-rhel_image_repo_versions:
+rhel_image_repo_versions: []
 #  - "{{ ansible_facts.distribution_major_version }}"
 #  - "{{ ansible_facts.distribution_major_version }}.6"
 # Custom repository configuration templates to copy
-rhel_image_repo_templates:
+rhel_image_repo_templates: []
 #  - rhel-9.6.json.j2
 #  - rhel-10.1.json.j2
 
@@ -45,7 +45,7 @@ rhel_image_repo_templates:
 rhel_image_system_repos_remove: false
 
 # Optional list of system repo config files to keep
-rhel_image_system_repos_keep:
+rhel_image_system_repos_keep: []
 #  - rhel-9.json
 #  - rhel-10.json
 

@@ -1,0 +1,175 @@
+---
+argument_specs:
+  main:
+    short_description: Build RHEL images using Image Builder
+    description:
+      - Setup Image Builder, build RHEL images using blueprints,
+        and optionally fetch the built images from the build host.
+    options:
+      rhel_image_do_setup:
+        description:
+          - Whether to setup Image Builder on the build host.
+        type: bool
+        default: true
+      rhel_image_do_build:
+        description:
+          - Whether to build an image.
+        type: bool
+        default: true
+      rhel_image_do_cleanup:
+        description:
+          - Whether to clean up Image Builder builds and artifacts.
+        type: bool
+        default: true
+      rhel_image_do_uninstall:
+        description:
+          - Whether to uninstall Image Builder from the build host.
+        type: bool
+        default: false
+
+      rhel_image_update_host:
+        description:
+          - Whether to update all packages on the build host.
+        type: bool
+        default: false
+      rhel_image_create_user:
+        description:
+          - Whether to create a user for building images.
+        type: bool
+        default: false
+      rhel_image_builder_user:
+        description:
+          - Username for the image builder user.
+          - The user is added to the weldr group.
+        type: str
+        default: image-builder
+      rhel_image_reboot_host:
+        description:
+          - Whether to reboot the build host after setup or uninstall changes.
+        type: bool
+        default: false
+
+      rhel_image_use_satellite:
+        description:
+          - Whether to configure repositories for Satellite or Capsule.
+          - If Image Builder was already installed the system will be
+            rebooted to ensure correct usage.
+        type: bool
+        default: false
+      rhel_image_repo_versions:
+        description:
+          - Repo versions to enable using the build host configuration.
+        type: list
+        elements: str
+        default: []
+      rhel_image_repo_templates:
+        description:
+          - Custom repository configuration templates to copy to the build host.
+        type: list
+        elements: str
+        default: []
+
+      rhel_image_system_repos_remove:
+        description:
+          - Whether to remove unneeded system repo configurations.
+          - Repo configurations are provided by RHEL RPMs so to restore
+            them the builder RPMs need to be reinstalled.
+          - If repo configuration files were removed the system will be
+            rebooted to ensure correct usage.
+        type: bool
+        default: false
+      rhel_image_system_repos_keep:
+        description:
+          - List of system repo configuration files to keep when
+            removing unneeded system repo configurations.
+        type: list
+        elements: str
+        default: []
+
+      rhel_image_git_key_file:
+        description:
+          - SSH key file for accessing the blueprint Git repository.
+        type: path
+      rhel_image_git_remote_repo:
+        description:
+          - URL of the Git repository containing image blueprints.
+        type: str
+        default: "file:///tmp/rhel-image-blueprints.git"
+      rhel_image_git_repo_checkout:
+        description:
+          - Branch, tag, or commit to checkout from the blueprint repository.
+        type: str
+        default: master
+      rhel_image_local_repo_path:
+        description:
+          - Local path on the build host to clone the blueprint repository.
+        type: path
+        default: /tmp/blueprint-repo
+
+      rhel_image_blueprint:
+        description:
+          - Name of the blueprint to build.
+        type: str
+        default: base-image
+      rhel_image_download_dir:
+        description:
+          - Directory on the build host to download the built image.
+        type: path
+        default: /tmp/images
+      rhel_image_filename:
+        description:
+          - Optional image filename to use instead of the build UUID.
+        type: str
+      rhel_image_build_remove:
+        description:
+          - Whether to delete the build from Image Builder after downloading.
+        type: bool
+        default: true
+      rhel_image_build_check_retries:
+        description:
+          - Number of retries to check the build status.
+        type: int
+        default: 30
+      rhel_image_build_check_delay:
+        description:
+          - Delay in seconds between each build status check.
+        type: int
+        default: 30
+
+      rhel_image_output_type:
+        description:
+          - Image output type for Image Builder.
+        type: str
+        default: qcow2
+      rhel_image_size:
+        description:
+          - Image size in MiB.
+        type: int
+      rhel_image_ostree_ref:
+        description:
+          - OSTree ref for the image build.
+        type: str
+      rhel_image_ostree_parent:
+        description:
+          - OSTree parent for the image build.
+        type: str
+      rhel_image_ostree_url:
+        description:
+          - OSTree URL for the image build.
+        type: str
+
+      rhel_image_fetch_image:
+        description:
+          - Whether to fetch the built image from the build host.
+        type: bool
+        default: false
+      rhel_image_fetch_directory:
+        description:
+          - Local directory where the image file will be fetched to.
+        type: path
+        default: /tmp
+      rhel_image_remote_delete:
+        description:
+          - Whether to delete the image file on the build host after fetching.
+        type: bool
+        default: false
