@@ -51,7 +51,7 @@ Then, create a [playbook](image_builder.yml) to use this role:
     rhel_image_blueprint: base-image
     rhel_image_output_type: qcow2
     # NB. This is in MiB
-    rhel_image_size: 30720
+    rhel_image_size: 32768
     # Optional image filename to use instead of UUID
     #rhel_image_filename: ci-daily-image.qcow2
 
