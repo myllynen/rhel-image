@@ -1,7 +1,7 @@
 ---
 namespace: myllynen
 name: rhel_image
-version: "2.2.5"
+version: "2.2.6"
 readme: README.md
 authors:
   - Marko Myllynen <myllynen@redhat.com>
