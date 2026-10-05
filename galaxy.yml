@@ -19,5 +19,5 @@ tags:
   - tools
   - infrastructure
 dependencies: {}
-repository: https://www.github.com/myllynen/rhel-image
-issues: https://www.github.com/myllynen/rhel-image/issues
+repository: https://github.com/myllynen/rhel-image
+issues: https://github.com/myllynen/rhel-image/issues
